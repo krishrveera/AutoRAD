@@ -1,0 +1,100 @@
+<version>0.1</version>
+<road id="1" sStart="0" name="Road1" length="1195.2720849193654" junction="-1" rule="RHT">
+  <drivingMaterialGuid>09B39764-2409-4A58-B9AB-D9C18AD5485C</drivingMaterialGuid>
+  <sidewalkMaterialGuid>87B8CB52-7E11-4F22-9CF6-285EC8FE9218</sidewalkMaterialGuid>
+  <borderMaterialGuid>09B39764-2409-4A58-B9AB-D9C18AD5485C</borderMaterialGuid>
+  <shoulderMaterialGuid>09B39764-2409-4A58-B9AB-D9C18AD5485C</shoulderMaterialGuid>
+  <link></link>
+  <type s="0" type="town">
+    <speed max="40" unit="mph"></speed>
+  </type>
+  <elevationProfile>
+    <elevation s="0" a="0" b="0" c="0" d="0"></elevation>
+    <elevation s="1195.2720849193654" a="0" b="0" c="0" d="0"></elevation>
+  </elevationProfile>
+  <lateralProfile>
+    <superelevation s="0" a="0" b="0" c="0" d="0"></superelevation>
+    <superelevation s="1195.2720849193654" a="0" b="0" c="0" d="0"></superelevation>
+  </lateralProfile>
+  <lanes>
+    <laneOffset s="0" a="0" b="0" c="0" d="0"></laneOffset>
+    <laneOffset s="0" a="0" b="0" c="0" d="0"></laneOffset>
+    <laneSection s="0">
+      <left>
+        <lane id="3" type="sidewalk" level="true" direction="backward">
+          <link></link>
+          <width sOffset="0" a="2" b="0" c="0" d="0"></width>
+        </lane>
+        <lane id="2" type="shoulder" level="true" direction="backward">
+          <link></link>
+          <width sOffset="0" a="10" b="0" c="0" d="0"></width>
+          <width sOffset="1192.746540437206" a="10" b="0" c="0" d="0"></width>
+          <height sOffset="0" inner="0" outer="0"></height>
+          <height sOffset="1195.2720849193654" inner="0" outer="0"></height>
+        </lane>
+        <lane id="1" type="driving" level="false" direction="backward">
+          <link></link>
+          <width sOffset="0" a="3.6" b="0" c="0" d="0"></width>
+          <roadMark sOffset="0" type="solid" weight="standard" color="white" width="0.15" laneChange="none" height="0" length="1" space="0"></roadMark>
+        </lane>
+      </left>
+      <center>
+        <lane id="0" type="driving" level="false" direction="undirected">
+          <link></link>
+          <roadMark sOffset="0" type="broken" weight="standard" color="white" width="0.15" laneChange="none" height="0" length="3" space="4.5"></roadMark>
+        </lane>
+      </center>
+      <right>
+        <lane id="-1" type="driving" level="false" direction="forward">
+          <link></link>
+          <width sOffset="0" a="3.6" b="0" c="0" d="0"></width>
+          <roadMark sOffset="0" type="solid" weight="standard" color="white" width="0.15" laneChange="none" height="0" length="1" space="0"></roadMark>
+        </lane>
+        <lane id="-2" type="shoulder" level="true" direction="forward">
+          <link></link>
+          <width sOffset="0" a="10" b="0" c="0" d="0"></width>
+          <height sOffset="0" inner="0" outer="0"></height>
+          <height sOffset="1195.2720849193654" inner="0" outer="0"></height>
+        </lane>
+        <lane id="-3" type="sidewalk" level="true" direction="forward">
+          <link></link>
+          <width sOffset="0" a="2" b="0" c="0" d="0"></width>
+          <width sOffset="0.05530354018828048" a="2" b="0" c="0" d="0"></width>
+          <height sOffset="0" inner="0.12" outer="0.12"></height>
+          <height sOffset="1195.2720849193654" inner="0.12" outer="0.12"></height>
+        </lane>
+      </right>
+    </laneSection>
+  </lanes>
+  <objects></objects>
+</road>
+<spline uuid="2585136a-7dce-4c4f-b91c-6879d598405c" type="autov2">
+  <point x="92.11846371368077" y="189.75658682176555" z="0.10000010110974955"></point>
+  <point x="85.08747549410491" y="109.94446000209305" z="0"></point>
+  <point x="173.4553917804241" y="67.26608648795273" z="0"></point>
+  <point x="231.29660976947721" y="55.78615009317309" z="7.105427357601002e-15"></point>
+  <point x="348.7369028179971" y="113.70754072389256" z="0"></point>
+  <point x="381.41056794158436" y="153.20484414200655" z="-0.0000015112855455967633"></point>
+  <point x="504.2733290853576" y="149.8754621117492" z="0"></point>
+  <point x="542.8416499767918" y="177.06296700466845" z="0"></point>
+  <point x="528.2994961980544" y="223.85076611889082" z="0"></point>
+  <point x="501.11199130737117" y="283.20484414200644" z="-0.0000029146221236509007"></point>
+  <point x="440.414305970032" y="295.9292674570171" z="0"></point>
+  <point x="336.02793218688527" y="305.7437637598405" z="-7.105427357601002e-15"></point>
+  <point x="214.50807797324413" y="318.33171235148757" z="0"></point>
+  <point x="168.35254641464243" y="335.40293635262276" z="0"></point>
+  <point x="113.3452690776788" y="306.9508963507308" z="0"></point>
+  <point x="90.85630099353925" y="276.7890332281744" z="0"></point>
+  <point x="89.59176588234469" y="253.20484414200652" z="-0.000002590775221023023"></point>
+  <point x="91.48856854913656" y="225.5753612247689" z="0"></point>
+  <point x="93.54744152273946" y="209.30093025093873" z="1.3672242005213775e-8"></point>
+  <point x="91.93030504932946" y="187.12236552306376" z="0.1000002542379761"></point>
+  <roadSegment start="0" id="1" type="road"></roadSegment>
+</spline>
+<environment name="Default">
+  <Weather>
+    <Sun azimuth="1" elevation="0" illuminance="6">
+      <Color r="1" g="1" b="1"></Color>
+    </Sun>
+  </Weather>
+</environment>

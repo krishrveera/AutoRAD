@@ -1,0 +1,204 @@
+<OpenDRIVE>
+  <header revMajor="1" revMinor="4" name="Untitled" version="1" date="2026-04-12T10:34:49.128Z" north="0" south="0" east="0" west="0" vendor="Truevision.ai"></header>
+  <road name="Road1" length="651.8571104748318" id="1" junction="-1" rule="RHT">
+    <type s="0" type="town">
+      <speed max="40" unit="mph"></speed>
+    </type>
+    <link></link>
+    <planView>
+      <geometry s="0.0000000000000000e+0" x="6.2007173728971139e+1" y="2.3110744765625617e+2" hdg="4.7208699008373518e+0" length="2.6390363028645403e+1">
+        <line></line>
+      </geometry>
+      <geometry s="2.6390363028645403e+1" x="6.2230985615528709e+1" y="2.0471803369870247e+2" hdg="4.7208699008373518e+0" length="1.7329129845867918e+1">
+        <arc curvature="2.5828825794101676e-2"></arc>
+      </geometry>
+      <geometry s="4.3719492874513321e+1" x="6.6186822706459765e+1" y="1.8799469604637281e+2" hdg="5.1684609767896426e+0" length="1.6797655726935162e+1">
+        <arc curvature="4.4455214845687263e-2"></arc>
+      </geometry>
+      <geometry s="6.0517148601448483e+1" x="7.8290175356317178e+1" y="1.7691319351866002e+2" hdg="5.9152043710344344e+0" length="9.8321417631597399e+0">
+        <line></line>
+      </geometry>
+      <geometry s="7.0349290364608223e+1" x="8.7464109987436146e+1" y="1.7337625486569672e+2" hdg="5.9152043710344344e+0" length="1.5664706574454442e+1">
+        <arc curvature="2.2286740480207835e-2"></arc>
+      </geometry>
+      <geometry s="8.6013996939062665e+1" x="1.0275875125948535e+2" y="1.7038046107091600e+2" hdg="6.2643196211579060e+0" length="1.5736550901410340e+1">
+        <arc curvature="1.6519243750978522e-2"></arc>
+      </geometry>
+      <geometry s="1.0175054784047300e+2" x="1.1835426165822818e+2" y="1.7212048031985913e+2" hdg="2.4109023411839825e-1" length="5.8414679713354616e+0">
+        <line></line>
+      </geometry>
+      <geometry s="1.0759201581180847e+2" x="1.2402678413059198e+2" y="1.7351519780403493e+2" hdg="2.4109023411839825e-1" length="2.7328942103193754e+1">
+        <arc curvature="1.0240090392268985e-2"></arc>
+      </geometry>
+      <geometry s="1.3492095791500222e+2" x="1.4931319440611790e+2" y="1.8364470315528538e+2" hdg="5.2094107158018810e-1" length="6.2010576674589402e-1">
+        <line></line>
+      </geometry>
+      <geometry s="1.3554106368174811e+2" x="1.4985104388436110e+2" y="1.8395332768558882e+2" hdg="5.2094107158018810e-1" length="2.8646079406754524e+1">
+        <arc curvature="7.2300740747925397e-3"></arc>
+      </geometry>
+      <geometry s="1.6418714308850264e+2" x="1.7304885955620304e+2" y="2.0067247978436092e+2" hdg="7.2805434764341292e-1" length="5.1747568281442966e+0">
+        <line></line>
+      </geometry>
+      <geometry s="1.6936189991664693e+2" x="1.7691166280866690e+2" y="2.0411585883163130e+2" hdg="7.2805434764341292e-1" length="1.8479799379681396e+1">
+        <arc curvature="-3.8331861848562979e-2"></arc>
+      </geometry>
+      <geometry s="1.8784169929632833e+2" x="1.9375745462495544e+2" y="2.1072486954981756e+2" hdg="1.9689230832305338e-2" length="5.3544583617248236e+0">
+        <line></line>
+      </geometry>
+      <geometry s="1.9319615765805315e+2" x="1.9911087514998772e+2" y="2.1083028790499344e+2" hdg="1.9689230832305338e-2" length="8.4486635594177812e+0">
+        <arc curvature="-5.1392281358978949e-2"></arc>
+      </geometry>
+      <geometry s="2.0164482121747093e+2" x="2.0732999193069853e+2" y="2.0918647918666076e+2" hdg="5.8686784432589398e+0" length="8.5757574400867043e+0">
+        <arc curvature="-1.2476034271360891e-2"></arc>
+      </geometry>
+      <geometry s="2.1022057865755764e+2" x="2.1497995770982735e+2" y="2.0531976087565729e+2" hdg="5.7616869995335387e+0" length="9.1633121544110452e+0">
+        <line></line>
+      </geometry>
+      <geometry s="2.1938389081196868e+2" x="2.2292522492711038e+2" y="2.0075478349508410e+2" hdg="5.7616869995335387e+0" length="1.1152093026859006e+1">
+        <arc curvature="6.7083637888536482e-2"></arc>
+      </geometry>
+      <geometry s="2.3053598383882769e+2" x="2.3370087217990667e+2" y="1.9915444360625258e+2" hdg="2.2662466266703429e-1" length="1.1066170331185987e+1">
+        <arc curvature="7.2631465069032328e-2"></arc>
+      </geometry>
+      <geometry s="2.4160215417001368e+2" x="2.4241339293837052e+2" y="2.0548688633322112e+2" hdg="1.0303768265245310e+0" length="1.5738927510032823e+1">
+        <line></line>
+      </geometry>
+      <geometry s="2.5734108168004650e+2" x="2.5051100433726100e+2" y="2.1898290533137859e+2" hdg="1.0303768265245310e+0" length="4.2149664915541393e+1">
+        <arc curvature="-5.0470574586499017e-3"></arc>
+      </geometry>
+      <geometry s="2.9949074659558789e+2" x="2.7586354343964479e+2" y="2.5255600705293779e+2" hdg="8.1764504583295228e-1" length="3.3540724736238531e+1">
+        <arc curvature="4.6056945747551384e-2"></arc>
+      </geometry>
+      <geometry s="3.3303147133182642e+2" x="2.7528052250643816e+2" y="2.8285419875562161e+2" hdg="2.3624283853434438e+0" length="4.5367034739831524e+0">
+        <line></line>
+      </geometry>
+      <geometry s="3.3756817480580958e+2" x="2.7205265325464921e+2" y="2.8604207242065388e+2" hdg="2.3624283853434438e+0" length="3.5176083781869067e+1">
+        <arc curvature="1.9462638335511276e-2"></arc>
+      </geometry>
+      <geometry s="3.7274425858767864e+2" x="2.4079887627051679e+2" y="3.0063582452826807e+2" hdg="3.0470477820496047e+0" length="1.0137913145513039e+1">
+        <line></line>
+      </geometry>
+      <geometry s="3.8288217173319168e+2" x="2.3070623943190466e+2" y="3.0159288491813697e+2" hdg="3.0470477820496047e+0" length="1.6329615967160350e+1">
+        <arc curvature="5.7897796157601322e-3"></arc>
+      </geometry>
+      <geometry s="3.9921178770035203e+2" x="2.1440124623824696e+2" y="3.0236425074715396e+2" hdg="3.1415926597094610e+0" length="1.6341155728746401e+1">
+        <arc curvature="1.3213877277598333e-3"></arc>
+      </geometry>
+      <geometry s="4.1555294342909843e+2" x="1.9806136034609517e+2" y="3.0218783019272860e+2" hdg="3.1631856623468426e+0" length="7.7114754900250659e+0">
+        <line></line>
+      </geometry>
+      <geometry s="4.2326441891912350e+2" x="1.9035168255489350e+2" y="3.0202132917438598e+2" hdg="3.1631856623468426e+0" length="2.6450505345831516e+1">
+        <arc curvature="1.6659578949511642e-3"></arc>
+      </geometry>
+      <geometry s="4.4971492426495502e+2" x="1.6392848150340734e+2" y="3.0086786607696177e+2" hdg="3.2072510905531808e+0" length="2.5944470528424176e+1">
+        <arc curvature="-1.8508687442382460e-2"></arc>
+      </geometry>
+      <geometry s="4.7565939479337919e+2" x="1.3862253289407346e+2" y="3.0532757889715367e+2" hdg="2.7270529946844739e+0" length="7.0448363171379356e+0">
+        <line></line>
+      </geometry>
+      <geometry s="4.8270423111051713e+2" x="1.3217438133208418e+2" y="3.0816501791304120e+2" hdg="2.7270529946844739e+0" length="1.6287521561286269e+1">
+        <arc curvature="-2.1110520345979551e-2"></arc>
+      </geometry>
+      <geometry s="4.9899175267180340e+2" x="1.1867513919074833e+2" y="3.1713443891309987e+2" hdg="2.3832149393793594e+0" length="1.6293966825871053e+1">
+        <arc curvature="2.0679955404563063e-2"></arc>
+      </geometry>
+      <geometry s="5.1528571949767445e+2" x="1.0519886526433589e+2" y="3.2615557251612773e+2" hdg="2.7201734467018026e+0" length="2.1634842296410852e+0">
+        <line></line>
+      </geometry>
+      <geometry s="5.1744920372731553e+2" x="1.0322466573134754e+2" y="3.2704055851367468e+2" hdg="2.7201734467018026e+0" length="1.8865166654403993e+1">
+        <arc curvature="2.3207384770688070e-2"></arc>
+      </geometry>
+      <geometry s="5.3631437038171953e+2" x="8.4892262117061989e+1" y="3.3080471940227790e+2" hdg="3.1579846280137112e+0" length="1.7031119493997267e+0">
+        <line></line>
+      </geometry>
+      <geometry s="5.3801748233111925e+2" x="8.3189378972926093e+1" y="3.3077680328496348e+2" hdg="3.1579846280137112e+0" length="1.5069376798528765e+1">
+        <arc curvature="4.8113413969411989e-2"></arc>
+      </geometry>
+      <geometry s="5.5308685912964802e+2" x="6.9493555357893186e+1" y="3.2532379487017920e+2" hdg="3.8830237921823776e+0" length="1.0140340393624001e+0">
+        <line></line>
+      </geometry>
+      <geometry s="5.5410089316901042e+2" x="6.8745702411164729e+1" y="3.2463897299329790e+2" hdg="3.8830237921823776e+0" length="1.3379512947753256e+1">
+        <arc curvature="4.1720789781615079e-2"></arc>
+      </geometry>
+      <geometry s="5.6748040611676367e+2" x="6.1839878954001563e+1" y="3.1338194064877899e+2" hdg="4.4412276392559864e+0" length="1.3619263793560663e+1">
+        <arc curvature="2.3636147750968426e-2"></arc>
+      </geometry>
+      <geometry s="5.8109966991032434e+2" x="6.0348424472259303e+1" y="2.9990367251583768e+2" hdg="4.7631345705400019e+0" length="4.9065716015543330e+0">
+        <line></line>
+      </geometry>
+      <geometry s="5.8600624151187867e+2" x="6.0597304495943035e+1" y="2.9500341705157962e+2" hdg="4.7631345705400019e+0" length="1.0019611603399085e+1">
+        <arc curvature="1.2000173086258272e-3"></arc>
+      </geometry>
+      <geometry s="5.9602585311527776e+2" x="6.1165683335077631e+1" y="2.8499999999999994e+2" hdg="4.7751582778897896e+0" length="1.0010826494326579e+1">
+        <arc curvature="-1.0315517646801534e-2"></arc>
+      </geometry>
+      <geometry s="6.0603667960960433e+2" x="6.1277110755187351e+1" y="2.7499424150193454e+2" hdg="4.6718914205284952e+0" length="5.3194977386009441e+0">
+        <line></line>
+      </geometry>
+      <geometry s="6.1135617734820528e+2" x="6.1061742957456659e+1" y="2.6967910529458470e+2" hdg="4.6718914205284952e+0" length="1.0380747483659889e+1">
+        <arc curvature="9.7323993091342764e-3"></arc>
+      </geometry>
+      <geometry s="6.2173692483186517e+2" x="6.1165683335077631e+1" y="2.5930329268436981e+2" hdg="4.7729210001667655e+0" length="1.0389042794393959e+1">
+        <arc curvature="-2.4113814728248277e-3"></arc>
+      </geometry>
+      <geometry s="6.3212596762625913e+2" x="6.1664215635041558e+1" y="2.4892649014247564e+2" hdg="4.7478690548519742e+0" length="9.6653014537116633e-1">
+        <line></line>
+      </geometry>
+      <geometry s="6.3309249777163029e+2" x="6.1698501002243688e+1" y="2.4796056828460772e+2" hdg="4.7478690548519742e+0" length="1.2321996145743128e+1">
+        <arc curvature="-2.0422972746828938e-3"></arc>
+      </geometry>
+      <geometry s="6.4541449391737342e+2" x="6.1980611625000293e+1" y="2.3564212722888360e+2" hdg="4.7227038757048581e+0" length="6.4426165574583365e+0">
+        <line></line>
+      </geometry>
+    </planView>
+    <elevationProfile>
+      <elevation s="0" a="0" b="0" c="0" d="0"></elevation>
+    </elevationProfile>
+    <lateralProfile>
+      <superelevation s="0" a="0" b="0" c="0" d="0"></superelevation>
+    </lateralProfile>
+    <lanes>
+      <laneOffset s="0" a="0" b="0" c="0" d="0"></laneOffset>
+      <laneOffset s="0" a="0" b="0" c="0" d="0"></laneOffset>
+      <laneSection s="0">
+        <left>
+          <lane id="3" type="sidewalk" level="true">
+            <link></link>
+            <width sOffset="0" a="2" b="0" c="0" d="0"></width>
+          </lane>
+          <lane id="2" type="shoulder" level="true">
+            <link></link>
+            <width sOffset="0" a="0.5" b="0" c="0" d="0"></width>
+          </lane>
+          <lane id="1" type="driving" level="false">
+            <link></link>
+            <width sOffset="0" a="3.6" b="0" c="0" d="0"></width>
+            <roadMark sOffset="0" type="solid" weight="standard" color="white" width="0.15" laneChange="none" height="0"></roadMark>
+          </lane>
+        </left>
+        <center>
+          <lane id="0" type="none" level="false">
+            <link></link>
+            <roadMark sOffset="0" type="broken" weight="standard" color="white" width="0.15" laneChange="none" height="0"></roadMark>
+          </lane>
+        </center>
+        <right>
+          <lane id="-1" type="driving" level="false">
+            <link></link>
+            <width sOffset="0" a="3.6" b="0" c="0" d="0"></width>
+            <roadMark sOffset="0" type="solid" weight="standard" color="white" width="0.15" laneChange="none" height="0"></roadMark>
+          </lane>
+          <lane id="-2" type="shoulder" level="true">
+            <link></link>
+            <width sOffset="0" a="0.5" b="0" c="0" d="0"></width>
+          </lane>
+          <lane id="-3" type="sidewalk" level="true">
+            <link></link>
+            <width sOffset="0" a="2" b="0" c="0" d="0"></width>
+          </lane>
+        </right>
+      </laneSection>
+    </lanes>
+    <objects></objects>
+  </road>
+</OpenDRIVE>

@@ -1,0 +1,22 @@
+1. Ego always present
+2. Adjust throttle to 0 when car speed reached
+3. Adjust throttle parameters
+4. Ego car type selection
+5. Game logic (limit time -> measure travelling distance) (later)
+6. Moving average auditory slider position
+
+3. Equal-Power Audio Panning MappingYou cannot map a linear 0.0 to 1.0 ratio directly to left/right volume channels. If you do, when the car is perfectly centered (0.5 L and 0.5 R), the overall volume will actually sound quieter than when it is fully panned to one side. This is a known psychoacoustic phenomenon.You must map your smoothed RAD ratio using an Equal-Power Panning trigonometric curve. Assuming a RAD of 0.0 is the left boundary and 1.0 is the right boundary:$$Volume_{Left} = \cos\left(\frac{\pi}{2} \cdot RAD\right)$$$$Volume_{Right} = \sin\left(\frac{\pi}{2} \cdot RAD\right)$$
+
+# Demos - 2 versions (normal + signals)
+# Visualizations of auditory cues (RAD, turn ahead, speed)
+# Parameters of controllers
+# Parameters related to the car (e.g., speed)
+# System diagram of interactions between CARLA and logic
+
+What I should do now?
+1. Test local waypoints (today)
+2. 
+
+1. Add ranges and parameters
+2. States
+3. Importance
