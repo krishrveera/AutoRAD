@@ -7,7 +7,7 @@ Usage
 """
 
 import argparse
-from src.app import RacingApp
+from game.app import RacingApp
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(

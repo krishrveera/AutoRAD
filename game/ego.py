@@ -2,10 +2,13 @@ import carla
 import numpy as np
 
 class Ego:
-    def __init__(self, vehicle, steer_intensity=0.3, time_horizon=10.0, dt=0.1, min_speed=0.5):
+    def __init__(self, vehicle, track_length,
+            steer_intensity=0.3, time_horizon=10.0, dt=0.1, min_speed=0.5):
         # Attach vehicle
         self.vehicle = vehicle
         self.transform = vehicle.get_transform()
+        self.start_location = self.transform.location
+        self.start_forward = self.transform.get_forward_vector()
 
         # Save variables to be updated
         self.current_x = self.transform.location.x
@@ -25,6 +28,7 @@ class Ego:
         self.time_horizon = time_horizon
         self.dt = dt
         self.min_speed = min_speed
+        self.activation_distance = track_length * 0.8  # Start checking for finish line after 80% of the track is completed
    
     def _update_speed(self):
         """Updates current speed of vehicle."""
@@ -185,3 +189,44 @@ class Ego:
         elif dist_left == -1 or dist_right == -1:
             return None
         return dist_left / (dist_left + dist_right)
+    
+    def _check_finish_line(self, waypoint_array, waypoint_tree):
+        """Checks if the car mathematically pierced the finish line plane while on the correct track segment."""
+        if self.distance_traveled < self.activation_distance:
+            return
+
+        current_loc = self.transform.location
+        
+        # 1. Create a vector from the start line to the car
+        vec_x = current_loc.x - self.start_location.x
+        vec_y = current_loc.y - self.start_location.y
+        
+        # 2. Check Direction: Are we in front of the line?
+        dot_product = (vec_x * self.start_forward.x) + (vec_y * self.start_forward.y)
+        is_in_front = dot_product > 0
+        
+        # 3. Did we cross the plane THIS exact frame?
+        if self.was_behind_line and is_in_front:
+            
+            # 4. KD-Tree Query: Get the nearest waypoint data
+            point = np.array([[current_loc.x, current_loc.y]])
+            distance, index = waypoint_tree.query(point, k=1)
+            closest_waypoint = waypoint_array[index[0]]
+            lane_width = closest_waypoint[2] 
+            
+            # Check A: Track Bounds (Are we on the asphalt?)
+            on_asphalt = distance[0] <= (lane_width / 2.0)
+            
+            # Check B: Topology Bounds
+            # If we crossed the infinite plane on the other side of the map, 
+            # this distance would be massive. We restrict the "Trigger Volume"
+            # to a small radius around the start location. We use lane_width * 1.5 
+            # to safely account for crossing near the edges or at high speeds.
+            dist_to_start_center = (vec_x**2 + vec_y**2)**0.5
+            at_finish_line = dist_to_start_center <= (lane_width * 1.5) 
+            
+            if on_asphalt and at_finish_line:
+                self.is_finished = True
+                
+        # Save current state for the next frame's comparison
+        self.was_behind_line = not is_in_front

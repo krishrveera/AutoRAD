@@ -83,6 +83,7 @@ class RacingApp:
         # 4. Attach Ego states
         self.ego = Ego(
             self.ego_vehicle,
+            self.world.track_length,
             steer_intensity=steer_intensity,
             time_horizon=time_horizon,
             dt=dt,

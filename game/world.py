@@ -32,6 +32,7 @@ class CarlaWorld:
         waypoint_arr, waypoint_tree = self._fit_waypoints_map(waypoint_dist)
         self.waypoint_array = waypoint_arr
         self.waypoint_tree = waypoint_tree
+        self.track_length = self._calculate_track_length(self.map.get_waypoint(self.world.get_spawn_points()[0].location), waypoint_dist)
         
         # 4. Setup Traffic Manager
         self.traffic_manager = self.client.get_trafficmanager()
@@ -78,6 +79,49 @@ class CarlaWorld:
         print("KD-tree built for waypoint coordinates.")
 
         return waypoint_array, waypoint_tree
+    
+    def _calculate_track_length(self, start_waypoint, waypoint_dist):
+        """Walks a single specific lane to calculate true track length."""
+        total_length = 0.0
+        current_wp = start_waypoint
+        
+        # Lock onto the lane we started in
+        target_lane_id = current_wp.lane_id 
+        
+        for _ in range(5000): 
+            # Get all possible next waypoints
+            next_wps = current_wp.next(waypoint_dist)
+            
+            if not next_wps:
+                break # Reached a dead end
+                
+            # --- THE FIX: Filter out horizontal waypoints ---
+            # Only keep the waypoint that stays in our specific lane
+            valid_wps = [wp for wp in next_wps if wp.lane_id == target_lane_id]
+            
+            if valid_wps:
+                next_wp = valid_wps[0]
+            else:
+                # Fallback: if the lane ends or merges, just take the first available
+                next_wp = next_wps[0] 
+                target_lane_id = next_wp.lane_id # Update our lock to the new lane
+            
+            # Calculate distance
+            loc1 = current_wp.transform.location
+            loc2 = next_wp.transform.location
+            dist = ((loc1.x - loc2.x)**2 + (loc1.y - loc2.y)**2 + (loc1.z - loc2.z)**2)**0.5
+            total_length += dist
+            
+            # Check for completed loop
+            dist_to_start = ((loc2.x - start_waypoint.transform.location.x)**2 + 
+                             (loc2.y - start_waypoint.transform.location.y)**2)**0.5
+            
+            if total_length > 100.0 and dist_to_start < waypoint_dist:
+                break
+                
+            current_wp = next_wp
+            
+        return total_length
 
     def spawn_npc_traffic(self, max_vehicles: int, seed: int) -> list:
         """Populates the city with AI drivers."""
