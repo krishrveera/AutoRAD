@@ -52,26 +52,38 @@ def parse_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
-def control_kwargs(args: argparse.Namespace) -> dict:
-    """Extract controller tuning values from parsed args into a kwargs dict."""
-    return dict(
+def main() -> None:
+    args = parse_args()
+
+    # Instantiate the application and run it
+    app = RacingApp(
+        host=args.host,
+        port=args.port,
+        cars=args.cars,
+        waypoint_dist=args.waypoint_dist,
+        seed=args.seed,
+        delta=args.delta,
+        map=args.map,
+        update_gap=args.update_gap,
+
+        steer_intensity=args.steer_intensity,
+        time_horizon=args.time_horizon,
+        dt=args.dt,
+        min_speed=args.min_speed,
+
+        warp_factor=args.warp_factor,
+
         throttle_max=args.throttle_max,
         throttle_increment=args.throttle_increment,
-        throttle_burst_increment=args.throttle_burst,
+        throttle_burst=args.throttle_burst,
         throttle_burst_threshold=args.throttle_burst_threshold,
+        speed_limit=args.speed_limit,
         reverse_throttle_increment=args.reverse_throttle_increment,
         brake_increment=args.brake_increment,
         steer_increment=args.steer_increment,
         steer_max=args.steer_max,
         steer_decay=args.steer_decay,
     )
-
-def main() -> None:
-    args = parse_args()
-    ctrl_kwargs = control_kwargs(args)
-
-    # Instantiate the application and run it
-    app = RacingApp(args, ctrl_kwargs)
     app.run()
 
 if __name__ == "__main__":
