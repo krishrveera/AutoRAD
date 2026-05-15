@@ -3,11 +3,11 @@ import random
 import sys
 import time
 
-from src.world import CarlaWorld
-from src.ego import Ego
-from src.render import DisplayManager
-from src.audio import AudioManager
-from src.controller import make_controller
+from game.world import CarlaWorld
+from game.ego import Ego
+from game.render import DisplayManager
+from game.audio import AudioManager
+from game.controller import make_controller
 
 class RacingApp:
     """The main application state machine and game loop."""
