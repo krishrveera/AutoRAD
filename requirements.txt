@@ -3,3 +3,4 @@ carla==0.9.16
 pygame>=2.6.0
 sounddevice>=0.5.0
 scipy>=1.17.0
+pyyaml>=6.0.0

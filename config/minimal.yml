@@ -1,0 +1,11 @@
+parameters:
+  steer_intensity:
+    type: float
+    default: 0.5
+    range: "(0.0, 1.0]"
+
+  warp_factor:
+    type: float
+    default: 1.0
+    range: "(0.0, 10]"
+
