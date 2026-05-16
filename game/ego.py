@@ -2,17 +2,18 @@ import carla
 import numpy as np
 
 class Ego:
-    def __init__(self, vehicle, track_length,
+    def __init__(self, vehicle, finish_line_wps, start_forward,
             steer_intensity=0.3, time_horizon=10.0, dt=0.1, min_speed=0.5):
         # Attach vehicle
         self.vehicle = vehicle
         self.transform = vehicle.get_transform()
         self.start_location = self.transform.location
-        self.start_forward = self.transform.get_forward_vector()
+        self.finish_line_wps = finish_line_wps
+        self.start_forward = start_forward
 
         # Save variables to be updated
-        self.current_x = self.transform.location.x
-        self.current_y = self.transform.location.y
+        self.current_x = None
+        self.current_y = None
         self.current_speed = 0.0
         self.current_ratio = 0.0
         self.distance_traveled = 0.0
@@ -28,7 +29,10 @@ class Ego:
         self.time_horizon = time_horizon
         self.dt = dt
         self.min_speed = min_speed
-        self.activation_distance = track_length * 0.8  # Start checking for finish line after 80% of the track is completed
+
+        # Finish line state
+        self.was_behind_line = True  # Assume we start behind the line
+        self.is_finished = False
    
     def _update_speed(self):
         """Updates current speed of vehicle."""
@@ -60,6 +64,11 @@ class Ego:
 
     def _update_distance_travelled(self):
         """Updates total distance travelled."""
+        if self.current_x is None or self.current_y is None:
+            self.current_x = self.transform.location.x
+            self.current_y = self.transform.location.y
+            return
+        
         new_x = self.transform.location.x
         new_y = self.transform.location.y
 
@@ -79,6 +88,7 @@ class Ego:
         self._update_speed()
         self._update_ratio(waypoint_array, waypoint_tree)
         self._update_distance_travelled()
+        self._check_finish_line()
 
     def _query_chunk_for_impact(
         self, chunk_points, waypoint_tree, waypoint_array
@@ -190,43 +200,49 @@ class Ego:
             return None
         return dist_left / (dist_left + dist_right)
     
-    def _check_finish_line(self, waypoint_array, waypoint_tree):
-        """Checks if the car mathematically pierced the finish line plane while on the correct track segment."""
-        if self.distance_traveled < self.activation_distance:
+    def _check_finish_line(self):
+        """Checks if the car has crossed any of the horizontal finish line KD-Tree points."""
+        
+        # 1. Lap Cooldown (e.g., must drive at least 200 meters before winning)
+        cooldown_distance = 200.0 
+        if self.distance_traveled < cooldown_distance:
             return
 
         current_loc = self.transform.location
         
-        # 1. Create a vector from the start line to the car
-        vec_x = current_loc.x - self.start_location.x
-        vec_y = current_loc.y - self.start_location.y
+        # 2. Are we inside the Finish Line Gate?
+        near_gate = False
+        active_wp = None
         
-        # 2. Check Direction: Are we in front of the line?
-        dot_product = (vec_x * self.start_forward.x) + (vec_y * self.start_forward.y)
-        is_in_front = dot_product > 0
-        
-        # 3. Did we cross the plane THIS exact frame?
-        if self.was_behind_line and is_in_front:
+        for wp in self.finish_line_wps:
+            # wp is now a data array: [x, y, width]
+            wp_x = wp[0]
+            wp_y = wp[1]
+            wp_width = wp[2]
+
+            # Check if we are within this specific lane's width
+            dist_to_wp = ((current_loc.x - wp_x)**2 + (current_loc.y - wp_y)**2)**0.5
             
-            # 4. KD-Tree Query: Get the nearest waypoint data
-            point = np.array([[current_loc.x, current_loc.y]])
-            distance, index = waypoint_tree.query(point, k=1)
-            closest_waypoint = waypoint_array[index[0]]
-            lane_width = closest_waypoint[2] 
+            # Using wp_width as our trigger radius
+            if dist_to_wp <= (wp_width * 1.0): 
+                near_gate = True
+                active_wp = wp
+                break
+                
+        # 3. Directional Plane Check (The Dot Product)
+        if near_gate:
+            # Vector from the active KD-Tree point to the car
+            vec_x = current_loc.x - active_wp[0]
+            vec_y = current_loc.y - active_wp[1]
             
-            # Check A: Track Bounds (Are we on the asphalt?)
-            on_asphalt = distance[0] <= (lane_width / 2.0)
+            # Dot product against the finish line's forward direction
+            dot_product = (vec_x * self.start_forward.x) + (vec_y * self.start_forward.y)
+            is_in_front = dot_product > 0
             
-            # Check B: Topology Bounds
-            # If we crossed the infinite plane on the other side of the map, 
-            # this distance would be massive. We restrict the "Trigger Volume"
-            # to a small radius around the start location. We use lane_width * 1.5 
-            # to safely account for crossing near the edges or at high speeds.
-            dist_to_start_center = (vec_x**2 + vec_y**2)**0.5
-            at_finish_line = dist_to_start_center <= (lane_width * 1.5) 
-            
-            if on_asphalt and at_finish_line:
+            if self.was_behind_line and is_in_front:
                 self.is_finished = True
                 
-        # Save current state for the next frame's comparison
-        self.was_behind_line = not is_in_front
+            self.was_behind_line = not is_in_front
+        else:
+            # If we aren't near the gate, we are safely "behind" it
+            self.was_behind_line = True

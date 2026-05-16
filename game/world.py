@@ -32,15 +32,18 @@ class CarlaWorld:
         waypoint_arr, waypoint_tree = self._fit_waypoints_map(waypoint_dist)
         self.waypoint_array = waypoint_arr
         self.waypoint_tree = waypoint_tree
-        self.track_length = self._calculate_track_length(self.map.get_waypoint(self.world.get_spawn_points()[0].location), waypoint_dist)
-        
+
         # 4. Setup Traffic Manager
         self.traffic_manager = self.client.get_trafficmanager()
         self.traffic_manager.set_synchronous_mode(True)
         self.traffic_manager.set_random_device_seed(seed)
         
-        self.vehicles = []
-
+        # 5. Build the Finish Line Gate and Racing Grid
+        self.finish_line_wps = None
+        spawn_points = self.map.get_spawn_points()
+        start_transform = random.choice(spawn_points)
+        self._build_finish_line_from_kdtree(start_transform, waypoint_arr, waypoint_tree)
+    
     def _clean_ghost_actors(self):
         """Sweeps up disconnected actors from previous crashed sessions."""
         actors = self.world.get_actors()
@@ -80,48 +83,127 @@ class CarlaWorld:
 
         return waypoint_array, waypoint_tree
     
-    def _calculate_track_length(self, start_waypoint, waypoint_dist):
-        """Walks a single specific lane to calculate true track length."""
-        total_length = 0.0
-        current_wp = start_waypoint
+    def _build_finish_line_from_kdtree(self, start_transform, waypoint_array, waypoint_tree):
+        """
+        Builds a multi-lane finish line gate using ONLY the KD-Tree point cloud,
+        completely bypassing CARLA's topological lane API.
+        """
+        start_loc = start_transform.location
+        point = np.array([start_loc.x, start_loc.y])
         
-        # Lock onto the lane we started in
-        target_lane_id = current_wp.lane_id 
+        # 1. Get the exact forward direction of our pole position
+        self.start_forward = start_transform.get_forward_vector()
+
+        # 2. Ask the KD-Tree for EVERY waypoint within 20 meters.
+        # This radius is large enough to cover a massive 8-lane highway.
+        search_radius = 20.0
+        candidate_indices = waypoint_tree.query_ball_point(point, r=search_radius)
         
-        for _ in range(5000): 
-            # Get all possible next waypoints
-            next_wps = current_wp.next(waypoint_dist)
+        self.finish_line_wps = []
+        
+        # 3. Filter the point cloud (The Slicing Math)
+        for idx in candidate_indices:
+            candidate_data = waypoint_array[idx]
             
-            if not next_wps:
-                break # Reached a dead end
+            # Create a vector pointing from the center point to the candidate point
+            vec_x = candidate_data[0] - point[0]
+            vec_y = candidate_data[1] - point[1]
+            dist = (vec_x**2 + vec_y**2)**0.5
+            
+            # If distance is almost 0, it's our center point. Add it immediately.
+            if dist < 0.1:
+                self.finish_line_wps.append(candidate_data)
+                continue
                 
-            # --- THE FIX: Filter out horizontal waypoints ---
-            # Only keep the waypoint that stays in our specific lane
-            valid_wps = [wp for wp in next_wps if wp.lane_id == target_lane_id]
+            # Normalize the vector
+            vec_x /= dist
+            vec_y /= dist
             
-            if valid_wps:
-                next_wp = valid_wps[0]
-            else:
-                # Fallback: if the lane ends or merges, just take the first available
-                next_wp = next_wps[0] 
-                target_lane_id = next_wp.lane_id # Update our lock to the new lane
+            # Is this point parallel to our finish line?
+            # If the candidate vector is perfectly perpendicular to our forward vector, 
+            # the dot product will be exactly 0.0. 
+            dot_product = (vec_x * self.start_forward.x) + (vec_y * self.start_forward.y)
             
-            # Calculate distance
-            loc1 = current_wp.transform.location
-            loc2 = next_wp.transform.location
-            dist = ((loc1.x - loc2.x)**2 + (loc1.y - loc2.y)**2 + (loc1.z - loc2.z)**2)**0.5
-            total_length += dist
-            
-            # Check for completed loop
-            dist_to_start = ((loc2.x - start_waypoint.transform.location.x)**2 + 
-                             (loc2.y - start_waypoint.transform.location.y)**2)**0.5
-            
-            if total_length > 100.0 and dist_to_start < waypoint_dist:
-                break
+            # We allow a small tolerance (e.g., 0.15) because waypoints on curves 
+            # might not be perfectly mathematically straight across the road.
+            if abs(dot_product) < 0.15: 
+                self.finish_line_wps.append(candidate_data)
                 
-            current_wp = next_wp
+        print(f"KD-Tree sliced a Finish Line containing {len(self.finish_line_wps)} valid points.")
+
+    def spawn_racing_grid(self, num_npcs, grid_spacing=8.0):
+        """
+        Spawns the Ego vehicle at the start line, and staggers NPCs behind it.
+        Translates raw KD-Tree points back into CARLA waypoints for grid placement.
+        """
+        self.vehicles = [] # Keep track of all NPCs
+        
+        # --- Translate KD-Tree data back to CARLA Waypoints ---
+        carla_finish_wps = []
+        for point_data in self.finish_line_wps:
+            # Create a basic location using the X and Y from our KD-Tree data.
+            # Z is 0.0 because project_to_road=True will automatically find the correct height.
+            loc = carla.Location(x=float(point_data[0]), y=float(point_data[1]), z=0.0)
             
-        return total_length
+            # Get the official CARLA waypoint at this spot
+            wp = self.map.get_waypoint(loc, project_to_road=True, lane_type=carla.LaneType.Driving)
+            if wp:
+                carla_finish_wps.append(wp)
+
+        if not carla_finish_wps:
+            print("Error: Could not project finish line points back to the CARLA map.")
+            return None
+
+        # --- 1. Spawn the Ego Vehicle (Pole Position) ---
+        # We use the center-most waypoint (index 0) of our translated list
+        ego_wp = carla_finish_wps[0]
+        ego_transform = ego_wp.transform
+        ego_transform.location.z += 0.5 # Elevate slightly to prevent ground clipping
+        
+        ego_bp = self.world.get_blueprint_library().find("vehicle.tesla.model3")
+        ego_bp.set_attribute('role_name', 'hero')
+        self.ego_vehicle = self.world.spawn_actor(ego_bp, ego_transform)
+        print("Spawned Ego Vehicle at Pole Position.")
+
+        # --- 2. Spawn NPC Traffic (The Grid) ---
+        lane_index = 1 # Start at index 1 so we don't spawn an NPC on top of the Ego car
+        current_row_distance = 0.0
+
+        npc_blueprints = self.world.get_blueprint_library().filter("vehicle.*")
+
+        for i in range(num_npcs):
+            if lane_index >= len(carla_finish_wps):
+                lane_index = 0
+                current_row_distance += grid_spacing
+            
+            # Pick the translated CARLA waypoint for this grid slot
+            base_wp = carla_finish_wps[lane_index]
+            
+            # Walk backward down the track to find the grid slot
+            prev_wps = base_wp.previous(current_row_distance)
+            
+            if not prev_wps:
+                # If we hit a dead end on this specific lane, skip to the next lane
+                # instead of breaking the entire loop.
+                lane_index += 1
+                continue
+                
+            grid_wp = prev_wps[0]
+            spawn_transform = grid_wp.transform
+            spawn_transform.location.z += 0.5
+            
+            # Try to spawn the NPC
+            npc_bp = random.choice(npc_blueprints)
+            npc = self.world.try_spawn_actor(npc_bp, spawn_transform)
+            
+            if npc:
+                npc.set_autopilot(True) # Let them drive!
+                self.vehicles.append(npc)
+                
+            lane_index += 1
+            
+        print(f"Spawned {len(self.vehicles)} NPC competitors on the grid.")
+        return self.ego_vehicle
 
     def spawn_npc_traffic(self, max_vehicles: int, seed: int) -> list:
         """Populates the city with AI drivers."""

@@ -42,7 +42,14 @@ class RacingApp:
 
         # 1. Initialize Sub-Systems
         pygame.joystick.init()
-        self.world = CarlaWorld(host, port, map, delta, cars, waypoint_dist, seed)
+        self.world = CarlaWorld(
+            host=host,
+            port=port,
+            delta=delta,
+            seed=seed,
+            map=map,
+            waypoint_dist=waypoint_dist,
+        )
         self.audio = AudioManager(warp_factor=warp_factor)
         
         # We need the camera blueprint to know what size to make the PyGame window
@@ -53,12 +60,7 @@ class RacingApp:
         self.display = DisplayManager(width=image_w, height=image_h)
 
         # 2. Populate the World
-        vehicles = self.world.spawn_npc_traffic(cars, seed)
-        if not vehicles:
-            print("Error: no vehicles could be spawned. Check the map and server.")
-            sys.exit(1)
-            
-        self.ego_vehicle = self.world.spawn_ego_vehicle()
+        self.ego_vehicle = self.world.spawn_racing_grid(num_npcs=cars, grid_spacing=8.0)
         
         # 3. Attach Sensors and Controllers
         control_kwargs = dict(
@@ -83,7 +85,8 @@ class RacingApp:
         # 4. Attach Ego states
         self.ego = Ego(
             self.ego_vehicle,
-            self.world.track_length,
+            finish_line_wps=self.world.finish_line_wps,
+            start_forward=self.world.start_forward,
             steer_intensity=steer_intensity,
             time_horizon=time_horizon,
             dt=dt,
@@ -110,6 +113,11 @@ class RacingApp:
 
                 # 4. Render Visuals
                 self.display.render(trajectory_ratio=self.ego.current_ratio)
+
+                # 5. Determine if the vehicle has finished the track
+                if self.ego.is_finished:
+                    print("Congratulations! You've completed the track.")
+                    self.running = False
 
         finally:
             self.teardown()
