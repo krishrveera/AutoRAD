@@ -131,21 +131,31 @@ class CarlaWorld:
                 
         print(f"KD-Tree sliced a Finish Line containing {len(self.finish_line_wps)} valid points.")
 
-    def spawn_racing_grid(self, num_npcs, grid_spacing=8.0):
+    def spawn_racing_grid(self, num_npcs, grid_spacing=8.0, custom_location=None):
         """
-        Spawns the Ego vehicle at the start line, and staggers NPCs behind it.
-        Translates raw KD-Tree points back into CARLA waypoints for grid placement.
+        Spawns the Ego vehicle at a fixed location or a map spawn point,
+        then builds the finish line gate and populates the grid behind it.
         """
-        self.vehicles = [] # Keep track of all NPCs
-        
-        # --- Translate KD-Tree data back to CARLA Waypoints ---
+        self.vehicles = [] 
+
+        # --- 1. Determine Starting Anchor ---
+        if custom_location:
+            # Get the waypoint for the fixed location and use its rotation
+            start_wp = self.map.get_waypoint(custom_location, project_to_road=True, lane_type=carla.LaneType.Driving)
+            start_transform = start_wp.transform
+        else:
+            # Fallback to random map spawn point
+            spawn_points = self.map.get_spawn_points()
+            start_transform = random.choice(spawn_points)
+
+        # --- 2. Build Finish Line Gate ---
+        # We pass the calculated start_transform to rebuild the gate correctly
+        self._build_finish_line_from_kdtree(start_transform, self.waypoint_array, self.waypoint_tree)
+
+        # --- 3. Translate KD-Tree points to CARLA Waypoints ---
         carla_finish_wps = []
         for point_data in self.finish_line_wps:
-            # Create a basic location using the X and Y from our KD-Tree data.
-            # Z is 0.0 because project_to_road=True will automatically find the correct height.
             loc = carla.Location(x=float(point_data[0]), y=float(point_data[1]), z=0.0)
-            
-            # Get the official CARLA waypoint at this spot
             wp = self.map.get_waypoint(loc, project_to_road=True, lane_type=carla.LaneType.Driving)
             if wp:
                 carla_finish_wps.append(wp)
@@ -154,21 +164,28 @@ class CarlaWorld:
             print("Error: Could not project finish line points back to the CARLA map.")
             return None
 
-        # --- 1. Spawn the Ego Vehicle (Pole Position) ---
-        # We use the center-most waypoint (index 0) of our translated list
+        # --- 4. Spawn the Ego Vehicle (Pole Position) ---
         ego_wp = carla_finish_wps[0]
         ego_transform = ego_wp.transform
-        ego_transform.location.z += 0.5 # Elevate slightly to prevent ground clipping
+        # If custom_location was provided, ensure we respect the original Z-height if needed
+        if custom_location:
+            ego_transform.location.z = custom_location.z + 0.5
+        else:
+            ego_transform.location.z += 0.5 
         
         ego_bp = self.world.get_blueprint_library().find("vehicle.tesla.model3")
         ego_bp.set_attribute('role_name', 'hero')
-        self.ego_vehicle = self.world.spawn_actor(ego_bp, ego_transform)
+        self.ego_vehicle = self.world.try_spawn_actor(ego_bp, ego_transform)
+        
+        if self.ego_vehicle is None:
+            print("Collision detected at spawn. Trying to shift Z-offset...")
+            ego_transform.location.z += 2.0 
+            self.ego_vehicle = self.world.spawn_actor(ego_bp, ego_transform)
         print("Spawned Ego Vehicle at Pole Position.")
 
-        # --- 2. Spawn NPC Traffic (The Grid) ---
-        lane_index = 1 # Start at index 1 so we don't spawn an NPC on top of the Ego car
+        # --- 5. Spawn NPC Traffic (The Grid) ---
+        lane_index = 1 
         current_row_distance = 0.0
-
         npc_blueprints = self.world.get_blueprint_library().filter("vehicle.*")
 
         for i in range(num_npcs):
@@ -176,15 +193,10 @@ class CarlaWorld:
                 lane_index = 0
                 current_row_distance += grid_spacing
             
-            # Pick the translated CARLA waypoint for this grid slot
             base_wp = carla_finish_wps[lane_index]
-            
-            # Walk backward down the track to find the grid slot
             prev_wps = base_wp.previous(current_row_distance)
             
             if not prev_wps:
-                # If we hit a dead end on this specific lane, skip to the next lane
-                # instead of breaking the entire loop.
                 lane_index += 1
                 continue
                 
@@ -192,12 +204,11 @@ class CarlaWorld:
             spawn_transform = grid_wp.transform
             spawn_transform.location.z += 0.5
             
-            # Try to spawn the NPC
             npc_bp = random.choice(npc_blueprints)
             npc = self.world.try_spawn_actor(npc_bp, spawn_transform)
             
             if npc:
-                npc.set_autopilot(True) # Let them drive!
+                npc.set_autopilot(True)
                 self.vehicles.append(npc)
                 
             lane_index += 1

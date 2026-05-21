@@ -1,3 +1,4 @@
+import carla
 import pygame
 import random
 import sys
@@ -15,7 +16,7 @@ class RacingApp:
     def __init__(self, 
             host="127.0.0.1",  # CARLA server hostname or IP  
             port=2000,         # CARLA server port
-            cars=1,            # Maximum number of NPC vehicles to spawn
+            cars=0,            # Maximum number of NPC vehicles to spawn
             waypoint_dist=0.1, # Distance between waypoints when generating the map KDTree
             seed=0,            # Random seed for reproducible NPC behaviour
             delta=0.05,        # Fixed simulation timestep in seconds
@@ -32,7 +33,7 @@ class RacingApp:
             throttle_increment=0.0001,     # Incremental throttle change per input event
             throttle_burst=0.01,           # Additional throttle applied when burst threshold is exceeded
             throttle_burst_threshold=0.2,  # Speed threshold (m/s) for applying throttle burst
-            speed_limit=5.0,              # Maximum speed (m/s)
+            speed_limit=8.0,              # Maximum speed (m/s)
             reverse_throttle_increment=0.1,# Incremental throttle change when reversing
             brake_increment=0.3,          # Incremental brake change per input event
             steer_increment=0.001,        # Incremental steering change per input event
@@ -60,7 +61,8 @@ class RacingApp:
         self.display = DisplayManager(width=image_w, height=image_h)
 
         # 2. Populate the World
-        self.ego_vehicle = self.world.spawn_racing_grid(num_npcs=cars, grid_spacing=8.0)
+        FIXED_SPAWN_LOC = carla.Location(x=84.87, y=370.80, z=18.00)
+        self.ego_vehicle = self.world.spawn_racing_grid(num_npcs=cars, grid_spacing=8.0, custom_location=FIXED_SPAWN_LOC)
         
         # 3. Attach Sensors and Controllers
         control_kwargs = dict(
