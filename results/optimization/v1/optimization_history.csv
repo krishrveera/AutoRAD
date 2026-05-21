@@ -1,0 +1,17 @@
+phase,iteration,warp_factor,time_seconds,score_log
+Exploration,1,3.0000005,138.3916,-4.9301
+Exploration,2,4.6022181,160.8277,-5.0803
+Exploration,3,2.5430852,104.2480,-4.6468
+Exploration,4,0.7979392,76.8029,-4.3412
+Exploration,5,3.2540268,128.6362,-4.8570
+Baseline,6,1.0,195.6117,-5.2761
+Optimization,7,0.000001,129.3611,-4.8626
+Optimization,8,6.0,360.0000,-5.8861
+Optimization,9,0.7072119,80.8368,-4.3924
+Optimization,10,1.7190784,84.2908,-4.4343
+Optimization,11,2.0734835,194.6505,-5.2712
+Optimization,12,1.3816790,106.9929,-4.6728
+Optimization,13,0.3841557,88.3473,-4.4813
+Optimization,14,1.5841174,181.5393,-5.2015
+Optimization,15,1.1671852,73.3543,-4.2953
+Optimization,16,0.1898575,91.2131,-4.5132

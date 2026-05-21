@@ -58,7 +58,7 @@ class ParameterSpace:
         and unpacks them into a named dictionary (kwargs) for your program.
         """
         # Squeeze the tensor in case BoTorch passes shape (1, d) instead of (d,)
-        flat_tensor = candidate_tensor.squeeze()
+        flat_tensor = candidate_tensor.flatten()
         
         if len(flat_tensor) != len(self.names):
             raise ValueError(
@@ -76,3 +76,7 @@ class ParameterSpace:
             kwargs[name] = self.params[name]._current 
             
         return kwargs
+    
+    def __str__(self):
+        return "\n".join([f"{name}: {param._current} (bounds: [{param.lower}, {param.higher}])" 
+                          for name, param in self.params.items()])

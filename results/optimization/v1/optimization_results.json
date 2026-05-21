@@ -1,0 +1,13 @@
+{
+    "version": "v1",
+    "config_file": "config/minimal.yml",
+    "metrics": {
+        "default_time_seconds": 195.6117,
+        "best_time_seconds": 73.3543,
+        "improvement_seconds": 122.2573,
+        "improvement_percentage": 62.5
+    },
+    "best_parameters": {
+        "warp_factor": 1.1671852486188852
+    }
+}

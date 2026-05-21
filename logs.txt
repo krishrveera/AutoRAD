@@ -1,0 +1,605 @@
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+
+🏎️  RACING GAME OPTIMIZER INITIALIZED (Version: v1)  🏎️
+All plots and data will be saved to: results/optimization/v1/
+
+--- Phase 1: Center + Sobol Exploration (5 Runs) ---
+
+[Random Run 1/5]
+🟢 Press ENTER when ready to drive...
+    Evaluating with parameters: {'warp_factor': 3.0000005}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.16 m/s (58.18 km/h)
+Application closed gracefully.
+    [Success] Ran in 138.3916 seconds
+
+[Random Run 2/5]
+🟢 Press ENTER when ready to drive...
+    Evaluating with parameters: {'warp_factor': 4.602218145637631}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 18.13 m/s (65.27 km/h)
+Application closed gracefully.
+    [Success] Ran in 160.8277 seconds
+
+[Random Run 3/5]
+🟢 Press ENTER when ready to drive...
+    Evaluating with parameters: {'warp_factor': 2.5430851975820064}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.16 m/s (58.18 km/h)
+Application closed gracefully.
+    [Success] Ran in 104.2480 seconds
+
+[Random Run 4/5]
+🟢 Press ENTER when ready to drive...
+    Evaluating with parameters: {'warp_factor': 0.797939184070751}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.66 m/s (59.98 km/h)
+Application closed gracefully.
+    [Success] Ran in 76.8029 seconds
+
+[Random Run 5/5]
+🟢 Press ENTER when ready to drive...
+    Evaluating with parameters: {'warp_factor': 3.254026751416862}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.17 m/s (58.21 km/h)
+Application closed gracefully.
+    [Success] Ran in 128.6362 seconds
+
+--- Phase 2: Baseline Default Run ---
+Default Setup: {'warp_factor': 1.0}
+🟢 Press ENTER when you are ready to drive the Default setup...
+    Evaluating with parameters: {'warp_factor': 1.0}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.16 m/s (58.17 km/h)
+Application closed gracefully.
+    [Success] Ran in 195.6117 seconds
+
+--- Phase 3: Bayesian Optimization (10 Runs) ---
+
+[Bayesian Opt Run 1/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+BoTorch Suggests: {'warp_factor': 1e-06}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 1e-06}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.17 m/s (58.21 km/h)
+Application closed gracefully.
+    [Success] Ran in 129.3611 seconds
+    [Result] Score: -4.8626
+
+[Bayesian Opt Run 2/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 6.0}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 6.0}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+    [WARNING] Timeout reached (300s). Terminating process!
+    [Result] Score: -5.8861
+
+[Bayesian Opt Run 3/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+BoTorch Suggests: {'warp_factor': 0.7072118736851037}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 0.7072118736851037}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.66 m/s (59.98 km/h)
+Application closed gracefully.
+    [Success] Ran in 80.8368 seconds
+    [Result] Score: -4.3924
+
+[Bayesian Opt Run 4/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 1.7190783890559875}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 1.7190783890559875}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 3 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.13 m/s (58.06 km/h)
+Application closed gracefully.
+    [Success] Ran in 84.2908 seconds
+    [Result] Score: -4.4343
+
+[Bayesian Opt Run 5/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 2.0734835294332035}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 2.0734835294332035}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 17.64 m/s (63.50 km/h)
+Application closed gracefully.
+    [Success] Ran in 194.6505 seconds
+    [Result] Score: -5.2712
+
+[Bayesian Opt Run 6/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 1.3816789623035115}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 1.3816789623035115}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.66 m/s (59.98 km/h)
+Application closed gracefully.
+    [Success] Ran in 106.9929 seconds
+    [Result] Score: -4.6728
+
+[Bayesian Opt Run 7/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 0.3841557447231845}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 0.3841557447231845}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 17.64 m/s (63.50 km/h)
+Application closed gracefully.
+    [Success] Ran in 88.3473 seconds
+    [Result] Score: -4.4813
+
+[Bayesian Opt Run 8/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 1.5841174090773993}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 1.5841174090773993}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 17.64 m/s (63.50 km/h)
+Application closed gracefully.
+    [Success] Ran in 181.5393 seconds
+    [Result] Score: -5.2015
+
+[Bayesian Opt Run 9/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-07 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-06 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-05 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-04 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-03 to the diagonal
+  warnings.warn(
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:302: BotorchWarning: Low-rank cholesky updates failed due NaNs or due to an ill-conditioned covariance matrix. Falling back to standard sampling.
+  samples, obj = self._get_samples_and_objectives(X)
+BoTorch Suggests: {'warp_factor': 1.1671852486188852}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 1.1671852486188852}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 18.62 m/s (67.03 km/h)
+Application closed gracefully.
+    [Success] Ran in 73.3543 seconds
+    [Result] Score: -4.2953
+
+[Bayesian Opt Run 10/10]
+D:\Projects\RAD\venv\Lib\site-packages\botorch\acquisition\monte_carlo.py:521: NumericsWarning: qNoisyExpectedImprovement has known numerical issues that lead to suboptimal optimization performance. It is strongly recommended to simply replace
+
+         qNoisyExpectedImprovement       -->     qLogNoisyExpectedImprovement 
+
+instead, which fixes the issues and has the same API. See https://arxiv.org/abs/2310.20708 for details.
+  legacy_ei_numerics_warning(legacy_name=type(self).__name__)
+D:\Projects\RAD\venv\Lib\site-packages\linear_operator\utils\cholesky.py:41: NumericalWarning: A not p.d., added jitter of 1.0e-08 to the diagonal
+  warnings.warn(
+BoTorch Suggests: {'warp_factor': 0.1898574554525089}
+🟢 Program is ready. Press ENTER when you are ready to drive...
+    Evaluating with parameters: {'warp_factor': 0.1898574554525089}
+pygame 2.6.1 (SDL 2.28.4, Python 3.12.0)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+Connecting to CARLA server...
+WARNING: Version mismatch detected: You are trying to connect to a simulator that might be incompatible with this API 
+WARNING: Client API version     = 294096eb1 
+WARNING: Simulator API version  = 294096eb1-dirty 
+WARNING: cannot parse georeference: ''. Using default values. 
+Swept 1 ghost actors off the map.
+Generated 62732 waypoints in the map.
+Converted driving waypoints coordinates and lane widths to NumPy array.
+KD-tree built for waypoint coordinates.
+WARNING: cannot parse georeference: ''. Using default values. 
+WARNING: No InMemoryMap cache found. Setting up local map. This may take a while... 
+KD-Tree sliced a Finish Line containing 3 valid points.
+KD-Tree sliced a Finish Line containing 2 valid points.
+Spawned Ego Vehicle at Pole Position.
+Spawned 0 NPC competitors on the grid.
+Warning: no gamepad detected — falling back to keyboard control.
+Plug in a controller and restart to use gamepad mode.
+Congratulations! You've completed the track.
+
+Ending game... triggering teardown sequence.
+Destroying world actors...
+Maximum speed achieved during session: 16.17 m/s (58.21 km/h)
+Application closed gracefully.
+    [Success] Ran in 91.2131 seconds
+    [Result] Score: -4.5132
+
+🏁 OPTIMIZATION COMPLETE 🏁
+
+--- FINAL REPORT ---
+Default Parameters Time: 195.612 seconds
+Best Parameters Time:    73.354 seconds
+Total Improvement:       122.257 seconds (62.5% faster!)
+
+The Ultimate Setup:
+  - warp_factor: 1.1672
+
+📁 Results successfully saved to: results/optimization/v1\optimization_results.json
