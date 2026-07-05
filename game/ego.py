@@ -2,8 +2,43 @@ import carla
 import numpy as np
 
 class Ego:
+    """Tracks the player vehicle's state and computes the RAD audio cue.
+
+    On every update the Ego reads the vehicle's transform and velocity, then
+    derives the **RAD ratio** (Ratio of Available Distance): it predicts two
+    kinematic "what if I steered hard left / hard right" trajectories and
+    measures how far each travels before leaving the drivable road. The ratio
+    of those two distances becomes a 0–1 pan value (0 = wall close on the
+    left, 1 = wall close on the right, 0.5 = centered) that the audio engine
+    turns into stereo panning. The class also accumulates distance travelled,
+    tracks top speed, and detects finish-line crossings to end a lap.
+    """
+
     def __init__(self, vehicle, finish_line_wps, start_forward,
             steer_intensity=0.3, time_horizon=10.0, dt=0.1, min_speed=0.5):
+        """Initialize Ego state and cache the vehicle's wheelbase.
+
+        Parameters
+        ----------
+        vehicle : carla.Vehicle
+            The player-controlled vehicle to track.
+        finish_line_wps : list[numpy.ndarray]
+            Finish-line gate points as ``[x, y, width]`` rows (from the world's
+            KD-tree slice).
+        start_forward : carla.Vector3D
+            Forward direction of the start/finish line, used as the normal for
+            the directional crossing check.
+        steer_intensity : float, optional
+            Fraction (0–1) of max steer angle used when projecting the
+            left/right trajectories.
+        time_horizon : float, optional
+            How far ahead, in seconds, to project each trajectory.
+        dt : float, optional
+            Integration timestep, in seconds, for trajectory prediction.
+        min_speed : float, optional
+            Speed (m/s) below which the RAD ratio is not updated (avoids noise
+            while stationary).
+        """
         # Attach vehicle
         self.vehicle = vehicle
         self.transform = vehicle.get_transform()
@@ -93,6 +128,27 @@ class Ego:
     def _query_chunk_for_impact(
         self, chunk_points, waypoint_tree, waypoint_array
     ):
+        """Find the first trajectory point in a chunk that leaves the road.
+
+        Batch-queries the KD-tree for the nearest waypoint of every point in
+        the chunk, then flags any point whose distance to that waypoint
+        exceeds half the local lane width (i.e. it has crossed the lane edge).
+
+        Parameters
+        ----------
+        chunk_points : numpy.ndarray
+            ``(k, 2)`` array of candidate ``(x, y)`` trajectory points.
+        waypoint_tree : scipy.spatial.cKDTree
+            KD-tree over road waypoint coordinates.
+        waypoint_array : numpy.ndarray
+            ``(N, 3)`` array of ``[x, y, lane_width]`` rows.
+
+        Returns
+        -------
+        int | None
+            The local index of the first off-road point, or ``None`` if the
+            whole chunk stays on the road.
+        """
         # Query the tree with the entire batch of trajectory points simultaneously.
         # k=1 means we only want the single closest waypoint for each point.
         distances, indices = waypoint_tree.query(chunk_points, k=1)

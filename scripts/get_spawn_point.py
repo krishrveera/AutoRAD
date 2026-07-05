@@ -2,6 +2,13 @@ import carla
 import time
 
 def capture_transform():
+    """Print the CARLA spectator camera's transform as a code snippet.
+
+    Waits 5 seconds so you can position the spectator camera in the CARLA
+    window, then reads its transform and prints a ready-to-paste
+    ``carla.Transform(...)`` literal. Used to find the fixed pole-position
+    spawn coordinates baked into :class:`~game.app.RacingApp`.
+    """
     # 1. Connect to the CARLA server
     client = carla.Client('localhost', 2000)
     client.set_timeout(10.0)

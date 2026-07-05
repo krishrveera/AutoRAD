@@ -3,6 +3,20 @@ import argparse
 import os
 
 def widen_lanes(input_file, new_width_meters):
+    """Rewrite an OpenDRIVE (.xodr) map so its driving lanes use a new width.
+
+    Parses the ``.xodr`` XML, sets the ``a`` coefficient of every ``<width>``
+    tag inside a ``type="driving"`` lane to ``new_width_meters``, and writes
+    the result to ``<input>_<width>m.xodr``. Non-driving lanes (sidewalks,
+    shoulders) are left unchanged.
+
+    Parameters
+    ----------
+    input_file : str
+        Path to the source ``.xodr`` map.
+    new_width_meters : float
+        Desired driving-lane width in meters.
+    """
     if not os.path.exists(input_file):
         print(f"Error: The file '{input_file}' was not found.")
         return

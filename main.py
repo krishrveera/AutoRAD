@@ -10,6 +10,18 @@ import argparse
 from game.app import RacingApp
 
 def parse_args() -> argparse.Namespace:
+    """Build the command-line interface and parse the user's arguments.
+
+    Defines every tunable knob exposed on the CLI — CARLA connection
+    settings, the audio/RAD parameters consumed by :class:`game.ego.Ego`
+    and :class:`game.audio.AudioManager`, the input device, and the
+    vehicle control-tuning constants — and returns them parsed.
+
+    Returns
+    -------
+    argparse.Namespace
+        The parsed arguments, ready to be forwarded to :class:`RacingApp`.
+    """
     parser = argparse.ArgumentParser(
         description="CARLA manual-control demo with NPC traffic.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -53,6 +65,12 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 def main() -> None:
+    """Entry point: parse CLI arguments, build the app, and run the game loop.
+
+    Instantiates a :class:`game.app.RacingApp` from the parsed CLI
+    arguments and blocks in :meth:`RacingApp.run` until the player
+    finishes the track or quits the window.
+    """
     args = parse_args()
 
     # Instantiate the application and run it

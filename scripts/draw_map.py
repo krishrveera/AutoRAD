@@ -1,6 +1,20 @@
+"""
+Diagnostic: draw every map waypoint as a tall pillar in the CARLA world.
+
+Useful for verifying that a custom ``.xodr`` racetrack parsed correctly and
+forms one continuous drivable loop — a low waypoint count signals a
+topological break in the map. Fly the spectator camera down the track to spot
+the red poles.
+"""
+
 import carla
 
 def main():
+    """Connect to CARLA, generate waypoints, and draw a red pillar at each.
+
+    Also prints a diagnostic count of generated waypoints to flag maps with
+    topological breaks.
+    """
     client = carla.Client('127.0.0.1', 2000)
     client.set_timeout(60.0)
 

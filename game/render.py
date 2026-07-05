@@ -6,6 +6,17 @@ class CameraSensor:
     """Attaches to a vehicle, listens to raw data, and converts it to a PyGame surface."""
     
     def __init__(self, world: carla.World, vehicle: carla.Vehicle, width: int, height: int):
+        """Spawn an RGB camera behind the vehicle and stream frames to a surface.
+
+        Parameters
+        ----------
+        world : carla.World
+            The CARLA world used to spawn the sensor.
+        vehicle : carla.Vehicle
+            The vehicle the chase camera attaches to.
+        width, height : int
+            Output image resolution in pixels.
+        """
         self.surface = pygame.Surface((width, height))
         
         bp_library = world.get_blueprint_library()
@@ -27,6 +38,7 @@ class CameraSensor:
         self.surface = pygame.surfarray.make_surface(array.swapaxes(0, 1))
 
     def destroy(self):
+        """Stop the sensor callback and remove the camera actor from CARLA."""
         if self.camera and self.camera.is_alive:
             self.camera.stop()
             self.camera.destroy()
@@ -36,6 +48,13 @@ class DisplayManager:
     """Owns the PyGame window, rendering the camera feed and HUD."""
     
     def __init__(self, width: int, height: int):
+        """Open the PyGame window and prepare the HUD font.
+
+        Parameters
+        ----------
+        width, height : int
+            Window size in pixels, normally matched to the camera resolution.
+        """
         pygame.init()
         self.width = width
         self.height = height

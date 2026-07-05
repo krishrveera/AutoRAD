@@ -40,6 +40,19 @@ class RacingApp:
             steer_max=0.1,                # Maximum steering angle
             steer_decay=0.2,              # Rate at which steering returns to center when no
         ):
+        """Wire together every subsystem needed to run a racing session.
+
+        Connects to CARLA, builds the audio engine, opens the PyGame display
+        sized to the camera, spawns the ego vehicle (plus optional NPC grid)
+        at the fixed pole position, attaches the camera and input controller,
+        and creates the :class:`~game.ego.Ego` state tracker.
+
+        The keyword arguments mirror the CLI flags in :mod:`main`; the inline
+        comments above document the meaning and units of each one. The audio
+        and RAD parameters (``warp_factor``, ``steer_intensity``,
+        ``time_horizon``, ``dt``, ``min_speed``) are the ones typically swept
+        by the Bayesian optimizer in :mod:`optimize`.
+        """
 
         # 1. Initialize Sub-Systems
         pygame.joystick.init()

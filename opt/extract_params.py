@@ -1,3 +1,11 @@
+"""
+YAML → BoTorch parameter-space loading utilities.
+
+Parses the optimization config (e.g. ``config/minimal.yml``), converting each
+parameter's mathematical interval string into safe inclusive/exclusive bounds
+and assembling them into a :class:`~opt.params.ParameterSpace`.
+"""
+
 import re
 import yaml
 from pathlib import Path
@@ -31,6 +39,18 @@ def parse_botorch_bounds_from_string(interval_str):
     return final_lower, final_upper
 
 def read_config_file(file_path: str | Path):
+    """Load and parse a YAML config file into a Python dict.
+
+    Parameters
+    ----------
+    file_path : str | pathlib.Path
+        Path to the YAML config file.
+
+    Returns
+    -------
+    dict
+        The parsed config contents.
+    """
     content = None
     with open(file_path, "r") as f:
         content = yaml.safe_load(f)
@@ -38,6 +58,27 @@ def read_config_file(file_path: str | Path):
     return content
 
 def build_parameter_space(config_dict):
+    """Turn a parsed config dict into a :class:`ParameterSpace`.
+
+    Each entry under the config's ``parameters`` key must define a ``default``
+    value and a ``range`` interval string (e.g. ``"(0.0, 6]"``). The interval
+    is parsed into BoTorch-safe bounds.
+
+    Parameters
+    ----------
+    config_dict : dict
+        Parsed config, expected to contain a ``"parameters"`` mapping.
+
+    Returns
+    -------
+    opt.params.ParameterSpace
+        The assembled, optimizable parameter space.
+
+    Raises
+    ------
+    ValueError
+        If any parameter is missing the required ``range`` key.
+    """
     parameters = []
     for name, details in config_dict["parameters"].items():
         if "range" not in details:

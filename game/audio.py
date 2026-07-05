@@ -2,7 +2,28 @@ import numpy as np
 import sounddevice as sd
 
 class AudioManager:
+    """Real-time stereo engine-sound synthesizer that encodes the RAD cue.
+
+    Runs a ``sounddevice`` output stream whose callback synthesizes a
+    sawtooth "engine" tone (pitch rising with speed) and pans it across the
+    stereo field using equal-power panning. The pan position is driven by the
+    RAD ratio supplied by :class:`~game.ego.Ego`, so the driver *hears* which
+    side of the lane has more room. ``warp_factor`` exponentially warps the
+    pan curve to widen a centered "safe zone" and sharpen edge warnings.
+    """
+
     def __init__(self, sample_rate=44100, warp_factor=2.0):
+        """Create the stereo output stream and initialize synth state.
+
+        Parameters
+        ----------
+        sample_rate : int, optional
+            Audio sample rate in Hz.
+        warp_factor : float, optional
+            Exponent applied to the pan value. ``1.0`` is linear (no safe
+            zone), ``2.0`` is the standard squared safe zone, and ``3.0+``
+            produces an extreme safe zone with violent edge warnings.
+        """
         self.fs = sample_rate
         self.stream = sd.OutputStream(samplerate=self.fs, channels=2, callback=self._callback)
         
@@ -53,6 +74,7 @@ class AudioManager:
         outdata[:, 1] = wave * right_gain * volume # Right Channel
 
     def start(self):
+        """Begin audio playback by starting the output stream."""
         self.stream.start()
         self.is_running = True
 
@@ -62,5 +84,6 @@ class AudioManager:
         self.ratio = ratio
 
     def stop(self):
+        """Halt audio playback by stopping the output stream."""
         self.stream.stop()
         self.is_running = False

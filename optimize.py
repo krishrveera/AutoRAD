@@ -1,3 +1,24 @@
+"""
+Human-in-the-loop Bayesian Optimization driver for the AutoRAD simulator.
+
+This script tunes the audio ``warp_factor`` (and any other parameters listed
+in the YAML config) by repeatedly asking a human to drive a lap in the CARLA
+racing app and treating the measured lap time as the objective to minimize.
+
+The optimization proceeds in phases:
+
+1. **Exploration** – one center point plus Sobol-sampled points.
+2. **Baseline** – the config's default parameter values.
+3. **Bayesian Optimization** – a :class:`~botorch.models.SingleTaskGP` surrogate
+   with a ``qNoisyExpectedImprovement`` acquisition function proposes the next
+   parameter set each iteration.
+4. **Reporting** – best parameters, JSON metrics, a step-by-step CSV history,
+   and per-iteration surrogate plots are written to ``results/optimization``.
+
+Lap time is log-transformed and negated so the optimizer can *maximize* a
+well-behaved score while we conceptually *minimize* time.
+"""
+
 import torch
 import math
 import multiprocessing
@@ -23,6 +44,20 @@ from opt.extract_params import read_config_file, build_parameter_space
 # 1. PARAMETER EXTRACTION
 # ==========================================
 def extract_parameters_from_config(config_file):
+    """Read a YAML config file and build the optimizable parameter space.
+
+    Parameters
+    ----------
+    config_file : str | pathlib.Path
+        Path to the YAML config (e.g. ``config/minimal.yml``) describing each
+        parameter's default value and bound interval.
+
+    Returns
+    -------
+    opt.params.ParameterSpace
+        The parameter space, exposing BoTorch-compatible bounds and
+        tensor/kwargs conversion helpers.
+    """
     config_dict = read_config_file(config_file)
     parameter_space = build_parameter_space(config_dict)
     return parameter_space
@@ -158,6 +193,34 @@ def plot_bo_step(model, acq_func, train_X, train_Y, bounds, step_name, output_di
     plt.close()
 
 def bayesian_optimization_loop(train_X, train_Y, parameter_space, botorch_bounds, num_iterations, output_dir):
+    """Run the main BO loop: fit a GP, propose a point, evaluate it, repeat.
+
+    Each iteration fits a :class:`SingleTaskGP` to the data gathered so far,
+    builds a ``qNoisyExpectedImprovement`` acquisition function, optimizes it
+    to suggest the next parameter set, saves a diagnostic plot, prompts the
+    human to drive that configuration, and appends the result to the training
+    data.
+
+    Parameters
+    ----------
+    train_X : torch.Tensor
+        Already-evaluated parameter points, shape ``(n, d)``.
+    train_Y : torch.Tensor
+        Corresponding objective scores, shape ``(n, 1)``.
+    parameter_space : opt.params.ParameterSpace
+        Used to convert candidate tensors back into ``RacingApp`` kwargs.
+    botorch_bounds : torch.Tensor
+        ``(2, d)`` lower/upper bounds for the search space.
+    num_iterations : int
+        Number of BO iterations to run.
+    output_dir : str
+        Directory where per-iteration surrogate plots are saved.
+
+    Returns
+    -------
+    tuple[torch.Tensor, torch.Tensor]
+        The augmented ``(train_X, train_Y)`` including every BO evaluation.
+    """
     for iteration in range(num_iterations):
         print(f"\n[Bayesian Opt Run {iteration + 1}/{num_iterations}]")
         
@@ -201,6 +264,24 @@ def bayesian_optimization_loop(train_X, train_Y, parameter_space, botorch_bounds
 # 4. MAIN EXECUTION
 # ==========================================
 def main(config_file, version="v0", n_init_samples=3, num_bo_iterations=8):
+    """Orchestrate a full optimization run end to end.
+
+    Runs all four phases (exploration, default baseline, BO loop, reporting),
+    then writes ``optimization_results.json`` and ``optimization_history.csv``
+    plus per-iteration plots under ``results/optimization/<version>/``.
+
+    Parameters
+    ----------
+    config_file : str
+        Path to the YAML parameter config.
+    version : str, optional
+        Label for the output sub-directory, letting multiple BO setups
+        coexist without overwriting each other.
+    n_init_samples : int, optional
+        Number of initial exploration samples (1 center point + Sobol).
+    num_bo_iterations : int, optional
+        Number of Bayesian-optimization iterations after exploration.
+    """
     print(f"\n🏎️  RACING GAME OPTIMIZER INITIALIZED (Version: {version})  🏎️")
     
     # Setup Output Directory

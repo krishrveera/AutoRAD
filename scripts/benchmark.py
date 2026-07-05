@@ -1,9 +1,21 @@
+"""
+Benchmark: KD-tree RAD computation vs. the native CARLA waypoint API.
+
+Drives a vehicle around the track with a custom KD-tree autopilot and, each
+frame, computes the left/right impact trajectories two ways — once via
+``carla_map.get_waypoint`` (the API method) and once via the local
+KD-tree/NumPy method used in production by :class:`~game.ego.Ego`. It reports
+the speedup, the mean-squared deviation between the two RAD values, and the
+theoretical max FPS of each, validating that the faster KD-tree method stays
+numerically faithful to the ground-truth API.
+"""
+
 import argparse
 import carla
-import random 
-import time 
+import random
+import time
 import numpy as np
-import math 
+import math
 from scipy.spatial import cKDTree
 import time
 import statistics
@@ -246,6 +258,28 @@ def fit_waypoints_map(carla_map, waypoint_dist = 2.0):
 def query_chunk_for_impact(
         chunk_points, waypoint_tree, waypoint_array
     ):
+    """Find the first point in a chunk that leaves the drivable road.
+
+    Standalone (non-method) twin of
+    :meth:`game.ego.Ego._query_chunk_for_impact`: batch-queries the KD-tree
+    and flags the first point whose distance to its nearest waypoint exceeds
+    half the local lane width.
+
+    Parameters
+    ----------
+    chunk_points : numpy.ndarray
+        ``(k, 2)`` array of candidate ``(x, y)`` trajectory points.
+    waypoint_tree : scipy.spatial.cKDTree
+        KD-tree over road waypoint coordinates.
+    waypoint_array : numpy.ndarray
+        ``(N, 3)`` array of ``[x, y, lane_width]`` rows.
+
+    Returns
+    -------
+    int | None
+        Local index of the first off-road point, or ``None`` if all points
+        stay on the road.
+    """
     # Query the tree with the entire batch of trajectory points simultaneously.
     # k=1 means we only want the single closest waypoint for each point.
     distances, indices = waypoint_tree.query(chunk_points, k=1)
@@ -350,6 +384,29 @@ def run_benchmark(
         vehicle_filter='vehicle.tesla.model3', spawn_index=0,
         steer_intensity=0.3, time_horizon=10.0, dt=0.1,
     ):
+    """Drive the track and benchmark the API vs. KD-tree RAD methods.
+
+    Spawns a vehicle, lets it accelerate, then for ``iterations`` frames
+    advances the sim with the KD-tree autopilot and times both RAD-computation
+    methods, drawing the trajectories and RAD values in the CARLA world for
+    visual inspection. Prints timing, speedup, RAD agreement (MSE), and
+    theoretical FPS at the end.
+
+    Parameters
+    ----------
+    iterations : int, optional
+        Number of benchmarked frames.
+    ticks_between_evals : int, optional
+        Simulation ticks advanced between each benchmarked frame.
+    waypoint_dist : float, optional
+        Waypoint spacing (m) used to build the KD-tree.
+    vehicle_filter : str, optional
+        Blueprint id of the vehicle to spawn.
+    spawn_index : int, optional
+        Index into the map's spawn points.
+    steer_intensity, time_horizon, dt : float, optional
+        Trajectory-prediction parameters shared by both methods.
+    """
     print(f"\n--- Starting Benchmark over {iterations} frames ---")
     world, carla_map = load_world()
     vehicle, wheelbase = prepare_vehicles(world, carla_map, vehicle_filter, spawn_index)

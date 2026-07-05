@@ -1,7 +1,25 @@
 import torch
 
 class Parameter:
+    """A single bounded, optimizable scalar parameter.
+
+    Wraps a named value together with its inclusive lower/upper bounds and
+    enforces those bounds whenever a new candidate is assigned. Values are
+    exposed as ``torch.double`` tensors for BoTorch interoperability.
+    """
+
     def __init__(self, name, default, lower, higher):
+        """Create a parameter.
+
+        Parameters
+        ----------
+        name : str
+            Parameter name (must match the ``RacingApp`` kwarg it maps to).
+        default : float
+            Initial / baseline value.
+        lower, higher : float
+            Inclusive lower and upper bounds for the search space.
+        """
         self.name = name
         self._current = default
         self.lower = lower
@@ -9,10 +27,21 @@ class Parameter:
 
     @property
     def candidate(self):
+        """Current value as a 0-D ``torch.double`` tensor."""
         return torch.tensor(self._current, dtype=torch.double)
-    
+
     @candidate.setter
     def candidate(self, value):
+        """Set the current value, validating it against the bounds.
+
+        Accepts a Python float or a 0-D/1-D ``torch.Tensor`` (as returned by
+        BoTorch).
+
+        Raises
+        ------
+        ValueError
+            If ``value`` falls outside ``[lower, higher]``.
+        """
         # Safely handle if 'value' comes back from BoTorch as a 1D or 0D tensor
         if isinstance(value, torch.Tensor):
             val_to_check = value.item()
@@ -29,9 +58,17 @@ class Parameter:
         
     @property
     def range(self):
+        """Bounds as a length-2 ``torch.double`` tensor ``[lower, higher]``."""
         return torch.tensor([self.lower, self.higher], dtype=torch.double)
     
 class ParameterSpace:
+    """An ordered collection of :class:`Parameter` objects.
+
+    Provides the glue between BoTorch and the simulator: it exposes the
+    stacked ``(2, d)`` bounds tensor BoTorch needs and converts candidate
+    tensors back into the named ``kwargs`` dict consumed by ``RacingApp``.
+    """
+
     def __init__(self, parameters):
         """
         Initializes the space with a list of Parameter objects.
@@ -78,5 +115,6 @@ class ParameterSpace:
         return kwargs
     
     def __str__(self):
-        return "\n".join([f"{name}: {param._current} (bounds: [{param.lower}, {param.higher}])" 
+        """Human-readable, multi-line listing of every parameter and its bounds."""
+        return "\n".join([f"{name}: {param._current} (bounds: [{param.lower}, {param.higher}])"
                           for name, param in self.params.items()])

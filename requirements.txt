@@ -1,6 +1,23 @@
-numpy>=2.4.4
+# ----------------------------------------------------------------------------
+# AutoRAD dependencies
+# Target: Python 3.11 or 3.12 (CARLA 0.9.16 supports 3.10-3.12; BoTorch needs
+# 3.11+, so the usable overlap is 3.11/3.12).
+# ----------------------------------------------------------------------------
+
+# --- Core simulator + game loop ---
 carla==0.9.16
+numpy>=2.4.4
 pygame>=2.6.0
 sounddevice>=0.5.0
 scipy>=1.17.0
 pyyaml>=6.0.0
+
+# --- Bayesian optimization (optimize.py, scripts/replay_opt.py) ---
+torch>=2.0.1
+botorch>=0.11
+gpytorch>=1.14
+
+# --- Data wrangling & plotting (optimization + noise analysis) ---
+pandas>=2.0
+matplotlib>=3.8
+seaborn>=0.13

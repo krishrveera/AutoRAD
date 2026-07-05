@@ -26,6 +26,7 @@ import textwrap
 
 
 def get_ip(host):
+    """Resolve a loopback host to the machine's outward-facing LAN IP."""
     if host in ['localhost', '127.0.0.1']:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         try:
@@ -39,11 +40,13 @@ def get_ip(host):
 
 
 def find_weather_presets():
+    """Return ``(preset, name)`` pairs for every built-in CARLA weather preset."""
     presets = [x for x in dir(carla.WeatherParameters) if re.match('[A-Z].+', x)]
     return [(getattr(carla.WeatherParameters, x), x) for x in presets]
 
 
 def list_options(client):
+    """Print the available weather presets and maps for this server."""
     maps = [m.replace('/Game/Carla/Maps/', '') for m in client.get_available_maps()]
     indent = 4 * ' '
     def wrap(text):
@@ -55,6 +58,7 @@ def list_options(client):
 
 
 def list_blueprints(world, bp_filter):
+    """Print every blueprint id matching ``bp_filter`` (e.g. ``vehicle.*``)."""
     blueprint_library = world.get_blueprint_library()
     blueprints = [bp.id for bp in blueprint_library.filter(bp_filter)]
     print('available blueprints (filter %r):\n' % bp_filter)
@@ -64,6 +68,7 @@ def list_blueprints(world, bp_filter):
 
 
 def inspect(args, client):
+    """Print a summary of the simulation: address, version, map, weather, actors."""
     address = '%s:%d' % (get_ip(args.host), args.port)
 
     world = client.get_world()
@@ -105,6 +110,7 @@ def inspect(args, client):
 
 
 def main():
+    """Parse CLI flags and apply/inspect the requested CARLA server settings."""
     argparser = argparse.ArgumentParser(
         description=__doc__)
     argparser.add_argument(

@@ -1,3 +1,13 @@
+"""
+Noise-characterization experiment for human-driven laps.
+
+Repeatedly drives the same set of ``warp_factor`` values (shuffled per round)
+and records every lap time to a CSV. The resulting spread captures how much
+run-to-run variance comes from human inconsistency, which informs the noisy
+acquisition function used in :mod:`optimize`. Run :mod:`scripts.analyze_noise`
+afterwards to visualize the collected data.
+"""
+
 import time
 import random
 import seaborn as sns
@@ -23,6 +33,26 @@ def run_app_wrapper(result_queue, kwargs_dict):
 
 # 2. Update evaluate_single_run
 def evaluate_single_run(timeout_seconds=300, **kwargs):
+    """Run one simulation lap in a subprocess and return its duration.
+
+    Spawns the app in a separate process (so a CARLA/PyGame crash can't take
+    down the experiment), waits up to ``timeout_seconds``, and returns the
+    measured wall-clock lap time. A timed-out run returns a fixed penalty of
+    ``timeout_seconds + 60``; a crashed run re-raises the exception.
+
+    Parameters
+    ----------
+    timeout_seconds : int, optional
+        Maximum time to allow the lap before terminating it.
+    **kwargs
+        Parameters forwarded to :class:`~game.app.RacingApp` (e.g.
+        ``warp_factor``).
+
+    Returns
+    -------
+    float
+        Lap duration in seconds (or the timeout penalty).
+    """
     result_queue = multiprocessing.Queue()
     
     # Now we pass the global function 'run_app_wrapper'
@@ -52,6 +82,14 @@ def save_to_csv(data_row, filename="racing_results.csv"):
     df.to_csv(filename, mode='a', index=False, header=header)
 
 def run_full_experiment():
+    """Drive every warp factor across multiple shuffled rounds, logging to CSV.
+
+    For each of ``n_replays`` rounds the warp factors are shuffled and driven
+    in turn (the shuffling reduces order/learning bias). Every result is
+    appended immediately to ``racing_results.csv`` so partial progress is
+    never lost. This data quantifies the human-driving noise that the
+    Bayesian optimizer must contend with.
+    """
     warp_factors = [0.5, 1, 3, 7]
     n_replays = 8
     

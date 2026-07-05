@@ -2,6 +2,20 @@ import wave
 import numpy as np
 
 def convert_to_mono(input_filepath, output_filepath):
+    """Down-mix a stereo WAV file to mono by averaging its channels.
+
+    Reads ``input_filepath``, and if it has more than one channel, averages
+    them into a single channel and writes the result to ``output_filepath``.
+    Files that are already mono are left untouched. Only 8- and 16-bit PCM
+    are supported.
+
+    Parameters
+    ----------
+    input_filepath : str
+        Path to the source WAV file.
+    output_filepath : str
+        Path to write the mono WAV file.
+    """
     # 1. Read the original WAV
     with wave.open(input_filepath, 'rb') as wav_in:
         n_channels = wav_in.getnchannels()

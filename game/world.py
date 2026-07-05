@@ -12,6 +12,29 @@ class CarlaWorld:
     """Manages the CARLA server connection, actor spawning, and simulation ticking."""
     
     def __init__(self, host: str, port: int, delta: float, seed: int, map: str, waypoint_dist: float = 0.1):
+        """Connect to CARLA, enable synchronous mode, and prepare the map.
+
+        Cleans up any leftover actors, switches the server into deterministic
+        synchronous mode with a fixed timestep, builds the waypoint NumPy
+        array + KD-tree used for fast nearest-road queries, seeds the traffic
+        manager, and constructs an initial finish-line gate.
+
+        Parameters
+        ----------
+        host : str
+            CARLA server hostname or IP.
+        port : int
+            CARLA server RPC port.
+        delta : float
+            Fixed simulation timestep in seconds.
+        seed : int
+            Random seed for reproducible traffic-manager behaviour.
+        map : str
+            CARLA map name (currently the world is reused, not reloaded).
+        waypoint_dist : float, optional
+            Spacing in meters between generated waypoints; smaller values give
+            a denser KD-tree and more accurate boundary detection.
+        """
         print("Connecting to CARLA server...")
         self.client = carla.Client(host, port)
         self.client.set_timeout(10.0)
@@ -60,6 +83,24 @@ class CarlaWorld:
             print(f"Swept {count} ghost actors off the map.")
 
     def _fit_waypoints_map(self, waypoint_dist):
+        """Sample the map's driving lanes into a NumPy array and KD-tree.
+
+        Generates waypoints at ``waypoint_dist`` spacing, keeps only the
+        driving lanes, and stores each as ``[x, y, lane_width]``. A
+        ``scipy.spatial.cKDTree`` over the ``(x, y)`` columns enables O(log n)
+        nearest-road lookups during trajectory prediction.
+
+        Parameters
+        ----------
+        waypoint_dist : float
+            Spacing in meters between sampled waypoints.
+
+        Returns
+        -------
+        tuple[numpy.ndarray, scipy.spatial.cKDTree]
+            The ``(N, 3)`` waypoint array and the KD-tree built over its
+            ``(x, y)`` coordinates.
+        """
         # Load all waypoints in the map
         waypoints = self.map.generate_waypoints(waypoint_dist)
         print(f"Generated {len(waypoints)} waypoints in the map.")

@@ -1,3 +1,13 @@
+"""
+Offline replay of a Bayesian-optimization run from logged history.
+
+Re-fits the GP surrogate step by step over a hard-coded historical dataset
+and renders a 3-panel diagnostic plot per iteration (noisy surrogate,
+idealized noiseless interpolation, and acquisition function). Lets you
+visualize *why* the optimizer made each choice without re-running the
+expensive human-in-the-loop driving. Output goes to ``results/replays``.
+"""
+
 import os
 import io
 import torch
@@ -98,6 +108,13 @@ def plot_bo_step(model, acq_func, train_X, train_Y, bounds, step_name, output_di
 # 2. THE REPLAY LOGIC
 # ==========================================
 def replay_optimization_history():
+    """Re-run the BO surrogate over logged history, plotting each step.
+
+    Loads the embedded historical CSV, seeds the training set with the
+    exploration + baseline rows, then walks through the optimization rows one
+    at a time — re-fitting the GP and saving a 3-panel plot for each — to
+    reconstruct the optimizer's decision process post-hoc.
+    """
     print("🎬 Starting BO Replay Generator...")
     output_dir = "results/replays/v1"
     os.makedirs(output_dir, exist_ok=True)
