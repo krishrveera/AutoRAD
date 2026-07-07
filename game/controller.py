@@ -168,7 +168,7 @@ class ControlObject:
             if abs(self._steer_cache) < self._steer_deadzone:
                 self._steer_cache = 0.0
 
-        self._control.steer = round(self._steer_cache, 1)
+        self._control.steer = round(self._steer_cache, 4)
 
         self._vehicle.apply_control(self._control)
 

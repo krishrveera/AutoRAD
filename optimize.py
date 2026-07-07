@@ -246,7 +246,10 @@ def bayesian_optimization_loop(train_X, train_Y, parameter_space, botorch_bounds
             raw_samples=20
         )
         
-        plot_bo_step(model, acq_func, train_X, train_Y, botorch_bounds, f"Iteration_{iteration+1}", output_dir, next_X=candidates[0])
+        # The surrogate/acquisition plot is 1-D only; posterior evaluation on a
+        # linspace grid crashes for multi-dimensional search spaces.
+        if train_X.shape[-1] == 1:
+            plot_bo_step(model, acq_func, train_X, train_Y, botorch_bounds, f"Iteration_{iteration+1}", output_dir, next_X=candidates[0])
         
         next_kwargs = parameter_space.tensor_to_kwargs(candidates)
         print(f"BoTorch Suggests: {next_kwargs}")
@@ -385,8 +388,10 @@ def main(config_file, version="v0", n_init_samples=3, num_bo_iterations=8):
     print(f"📁 Full step-by-step history saved to: {csv_path}")
 
 if __name__ == "__main__":
-    # Change version here when testing different BO setups or parameters
-    VERSION = "v1"
-    CONFIG_FILE = "config/minimal.yml"
-    
+    # Change version here when testing different BO setups or parameters.
+    # Phase 2 (6-D: warp + steering/brake + attentional): config/phase2.yml.
+    # Phase 1 (1-D warp_factor only): config/minimal.yml.
+    VERSION = "v2"
+    CONFIG_FILE = "config/phase2.yml"
+
     main(CONFIG_FILE, version=VERSION, n_init_samples=5, num_bo_iterations=10)

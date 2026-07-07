@@ -9,6 +9,7 @@ from game.ego import Ego
 from game.render import DisplayManager
 from game.audio import AudioManager
 from game.controller import make_controller
+from game.turns import TrackProfile, TusTracker, TUS_MARKER_SPACING_M
 
 class RacingApp:
     """The main application state machine and game loop."""
@@ -23,11 +24,17 @@ class RacingApp:
             map="Town04",      # CARLA map to load (e.g. Town01, Town02, etc.)
             update_gap=50,     # Minimum ms between audio updates
 
+            input_device="gamepad",  # Input controller: "keyboard" or "gamepad"
+
             steer_intensity=0.1, # How much the steering angle affects the audio panning
             time_horizon=120.0,  # How far into the future the Ego class should plan its trajectory (seconds)
             dt=0.1,             # Timestep between Ego trajectory updates (seconds)
             min_speed=0.5,      # Minimum speed (m/s) before the Ego class starts updating the RAD ratio
             warp_factor=1.0,    # Exponent for warping the pan ratio to make it more perceptually linear. 1.0 = Linear (No safe zone), 2.0 = Squared (Standard safe zone), 3.0+ = Extreme (Massive safe zone, violent edge warnings)
+
+            attentional_shift_strength=0.0,  # 0.0 = flat channel mix, 1.0 = full contextual emphasis shift between slider and TUS
+            tus_enabled=True,                # Enable the Turn Indicator System channel
+            tus_marker_spacing=TUS_MARKER_SPACING_M,  # Meters between TUS beep distance markers
 
             throttle_max=1.0,              # Maximum throttle value
             throttle_increment=0.0001,     # Incremental throttle change per input event
@@ -64,7 +71,10 @@ class RacingApp:
             map=map,
             waypoint_dist=waypoint_dist,
         )
-        self.audio = AudioManager(warp_factor=warp_factor)
+        self.audio = AudioManager(
+            warp_factor=warp_factor,
+            attentional_shift_strength=attentional_shift_strength,
+        )
         
         # We need the camera blueprint to know what size to make the PyGame window
         camera_bp = self.world.world.get_blueprint_library().find("sensor.camera.rgb")
@@ -76,6 +86,15 @@ class RacingApp:
         # 2. Populate the World
         FIXED_SPAWN_LOC = carla.Location(x=84.87, y=370.80, z=18.00)
         self.ego_vehicle = self.world.spawn_racing_grid(num_npcs=cars, grid_spacing=8.0, custom_location=FIXED_SPAWN_LOC)
+
+        # Turn Indicator System: profile the track once, then track the car.
+        self.tus = None
+        if tus_enabled:
+            self.track_profile = TrackProfile.build(
+                self.world.map, FIXED_SPAWN_LOC, marker_spacing=tus_marker_spacing
+            )
+            print(self.track_profile.summary())
+            self.tus = TusTracker(self.track_profile)
         
         # 3. Attach Sensors and Controllers
         control_kwargs = dict(
@@ -91,7 +110,9 @@ class RacingApp:
             steer_decay=steer_decay,
         ) 
         self.display.attach_camera(self.world.world, self.ego_vehicle)
-        self.controller = make_controller(input, self.ego_vehicle, control_kwargs)
+        self.input_device = input_device
+        self.control_kwargs = control_kwargs
+        self.controller = make_controller(input_device, self.ego_vehicle, control_kwargs)
         
         self.running = True
         self.update_gap = update_gap  # ms between audio updates
@@ -125,6 +146,10 @@ class RacingApp:
                     self.last_update_time = current_time
                     self.ego.update(self.world.waypoint_array, self.world.waypoint_tree)
                     self.audio.update_state(speed=self.ego.current_speed, ratio=self.ego.current_ratio)
+                    if self.tus is not None and self.ego.current_x is not None:
+                        self.audio.update_tus(
+                            self.tus.update(self.ego.current_x, self.ego.current_y)
+                        )
 
                 # 4. Render Visuals
                 self.display.render(trajectory_ratio=self.ego.current_ratio)
@@ -163,7 +188,7 @@ class RacingApp:
             
             # Reattach the camera and controller to the new vehicle
             self.display.attach_camera(self.world.world, self.ego_vehicle)
-            self.controller = make_controller(self.args.input, self.ego_vehicle, self.ctrl_kwargs)
+            self.controller = make_controller(self.input_device, self.ego_vehicle, self.control_kwargs)
 
     def teardown(self):
         """Safely shuts down all managers."""

@@ -1,0 +1,39 @@
+# AutoRAD Phase 2 search space: interface + attentional knobs only.
+# Game-layer knobs (speed_limit, throttle_*) are deliberately excluded —
+# they change what the game demands, not how it is perceived (intention
+# preservation). Ranges are calibrated around the actual main.py defaults
+# (roughly 0.2x-5x), NOT the draft plan-doc ranges which were 10-200x off.
+#
+# steer_max is included per team decision but its interface-vs-game-layer
+# classification is a flagged open question (it caps what the car can do).
+
+parameters:
+  warp_factor:
+    type: float
+    default: 1.0
+    range: "(0.0, 6]"
+
+  steer_increment:
+    type: float
+    default: 0.001
+    range: "[0.0002, 0.005]"
+
+  steer_max:
+    type: float
+    default: 0.1
+    range: "[0.02, 0.5]"
+
+  steer_decay:
+    type: float
+    default: 0.2
+    range: "[0.05, 0.95]"
+
+  brake_increment:
+    type: float
+    default: 0.3
+    range: "[0.06, 1.0]"
+
+  attentional_shift_strength:
+    type: float
+    default: 0.0
+    range: "[0.0, 1.0]"

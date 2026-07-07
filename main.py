@@ -45,6 +45,12 @@ def parse_args() -> argparse.Namespace:
 
     sim.add_argument("--warp-factor", type=float, default=1.0, help="Exponent for warping the pan ratio to make it more perceptually linear. 1.0 = Linear (No safe zone), 2.0 = Squared (Standard safe zone), 3.0+ = Extreme (Massive safe zone, violent edge warnings)")
 
+    # --- Turn Indicator System / attentional knobs ---
+    tus = parser.add_argument_group("turn indicator system")
+    tus.add_argument("--attentional-shift-strength", type=float, default=0.0, help="Contextual emphasis between audio channels: 0.0 = flat mix (legacy behavior), 1.0 = full shift")
+    tus.add_argument("--no-tus", dest="tus_enabled", action="store_false", help="Disable the Turn Indicator System channel (reproduces Phase 1 audio)")
+    tus.add_argument("--tus-marker-spacing", type=float, default=20.0, help="Meters between TUS beep distance markers (paper value 20 m assumes ~35 m/s; consider ~4.5 m at the default 8 m/s speed limit)")
+
     # --- Input ---
     inp = parser.add_argument_group("input")
     inp.add_argument("--input", choices=["keyboard", "gamepad"], default="gamepad", help="Input device")
@@ -90,6 +96,11 @@ def main() -> None:
         min_speed=args.min_speed,
 
         warp_factor=args.warp_factor,
+
+        attentional_shift_strength=args.attentional_shift_strength,
+        tus_enabled=args.tus_enabled,
+        tus_marker_spacing=args.tus_marker_spacing,
+        input_device=args.input,
 
         throttle_max=args.throttle_max,
         throttle_increment=args.throttle_increment,
